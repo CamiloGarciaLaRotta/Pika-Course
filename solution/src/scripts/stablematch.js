@@ -24,6 +24,7 @@ class Student {
 			}
 		}
 		this.lectures = [];
+		this.lectureCount = 0;
 	}
 
 	
@@ -49,6 +50,7 @@ class Lecture {
 		this.end = l["end"];
 		this.day = l["day"];
 		this.students = [];
+		this.studentCount = 0;
 	}
 	
 	addStudent(s) {
@@ -57,6 +59,8 @@ class Lecture {
 		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
 			s.matrix[l.day][c] = false;
 		}
+		this.studentCount++;
+		s.lectureCount++;
 	}
 
 	print() {
