@@ -26,12 +26,6 @@ class Student {
 		this.lectures = [];
 	}
 
-	addLecture(l) {
-		this.lectures.push(l);
-		for(var c = timeAsIndex(l.start); c <= timeAsIndex(l.end); c++) {
-			this.matrix[l.day][c] = false;
-		}
-	}
 	
 	print() {
 		console.log(this.s[0]);
@@ -57,6 +51,14 @@ class Lecture {
 		this.students = [];
 	}
 	
+	addStudent(s) {
+		this.students.push(s);
+		s.lectures.push(this);
+		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
+			s.matrix[l.day][c] = false;
+		}
+	}
+
 	print() {
 		console.log(this.name + ": " + this.day + " from " + this.start + " to " + this.end);
 	}
@@ -87,9 +89,7 @@ for(var s in students) {
 function isAvailable(s,l) {
 	var day = l["day"];
 	var start = timeAsIndex(l["start"]);
-	console.log(l["start"] + " -> " + start);
 	var end = timeAsIndex(l["end"]);
-	console.log(l["end"] + " -> " + end);
 	var daylist = s.matrix[dayAsIndex(day)];
 	for (var c = start; c < end; c++) {
 		if(!daylist[c]) return false;
