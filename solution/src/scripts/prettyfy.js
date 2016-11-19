@@ -120,18 +120,20 @@ function getAvail(id){
 	printOnDiv("g")
 	return s[id][1];
 }
-
+//prints 1 student avails
 function toString(id){
-	var string; 
+	var string;
+	var out; 
 	console.log(s[id][0])
 	for (var key in s[id][1]){
 		string = s[id][1][key]["day"] + "  \tTime: " +
 	 	s[id][1][key]["start"] + " - " +
 		s[id][1][key]["end"];
-		console.log(string);
+		out += string + "\n";
 	}
-
+	printOnDiv(out);
 }
+//Prints all student avails
 function prettyfy(){	
 	var i = 1;
 	for(var key in s){
