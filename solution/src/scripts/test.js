@@ -1,16 +1,24 @@
-function output() {
-    var text = getTest();
-    //var text = getMath();
-    document.getElementById("user").innerHTML = JSON.stringify(text, undefined, 2);
+var m = require('./classes.json');
+
+// function to be ran at page load time
+function load(){
+    printOnDiv("<center>Welcome to Tijuana</center>")
 }
 
-function getMath(){
-    return c["classes"]["101"]["name"];
+// print on <div>
+function printOnDiv(str){
+    document.getElementById("user").innerHTML = str
 }
 
-function getTest(){
-    return test.name;
+// radio buttons
+var currentValue = 0;
+function handleClick(radio) {
+//    alert('Old value: ' + currentValue);
+//    alert('New value: ' + myRadio.value);
+//    currentValue = myRadio.value;
+    printOnDiv(radio.value)
 }
+
 
 var c = {"classes": {
     "101": {

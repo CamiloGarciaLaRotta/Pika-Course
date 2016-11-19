@@ -6,16 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/ico" href="src/pictures/favicon.ico" sizes="32x32" />
         <script type="text/javascript" src="src/scripts/test.js"></script>
-        <script data-main="scripts/main.js" src="src/scripts/require.js"></script>
-        <script type="text/javascript" src="src/JSON/classes.JSON"></script>
         <link href="css/style.css" rel="stylesheet">
     </head>
-    <body>
-    <div class="mainContainer">
-        <div class="rows">
-            <pre id="user"></pre>
-        </div>
-    </div>
     <input type="button" id="btn" value="Test!" onClick="output();" />
+    <form action="">
+    <input type="radio" name="viewer"  onclick="handleClick(this);" value="student"> Student<br>
+    <input type="radio" name="viewer"  onclick="handleClick(this);" value="prof"> Professor<br>
+    <input type="radio" name="viewer"  onclick="handleClick(this);" value="dean"> Dean
+    </form>
+    <body onload="load()">
+    <div class="mainContainer">
+        <div class="rows" id="user"></div>
+    </div>
     </body>
 </html>
