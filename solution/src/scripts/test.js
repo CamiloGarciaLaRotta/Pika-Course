@@ -1,14 +1,42 @@
-    
 function output() {
-    document.getElementById("user").innerHTML = JSON.stringify(test, undefined, 2);
+    var text = getTest();
+    //var text = getMath();
+    document.getElementById("user").innerHTML = JSON.stringify(text, undefined, 2);
 }
 
+function getMath(){
+    return c["classes"]["101"]["name"];
+}
+
+function getTest(){
+    return test.name;
+}
+
+var c = {"classes": {
+    "101": {
+    		  "name": "Mathematics",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Monday",
+    		  			"start":"08:30am",
+    		  			"end":"10:30am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Tuesday",
+    		  			"start":"08:00am",
+    		  			"end":"10:00am"
+    		  			}
+    		  }
+    }
+}}
+
+// JSONs
 var test = {
     "name":"Joe Biden", 
     "BFF": "Obama"
 }
 
-var classes = {"classes": {
+var c = {"classes": {
     "101": {
     		  "name": "Mathematics",
     		  "times": {
@@ -162,7 +190,7 @@ var classes = {"classes": {
 }
 }
 
-var students = {
+var s = {
     "1": [
         "CANDELARIO, AQUINO",
         {
