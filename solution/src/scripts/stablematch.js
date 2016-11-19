@@ -205,7 +205,7 @@ function dayAsIndex(day) {
 }
 
 //Testing
-roster[1].print();
-roster[1].printHours();
+roster[0].print();
+roster[0].printHours();
 courses[2].lec1.print();
-console.log(isAvailable(roster[1],courses[2].lec1));
+console.log(isAvailable(roster[0],courses[2].lec1));

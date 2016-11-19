@@ -3,6 +3,7 @@
 
 // function to be ran at page load time
 var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
+var size = 15;
 function load(){
 	printOnDiv("<center>Welcome to Tijuana</center>","output")
 }
@@ -10,6 +11,9 @@ function load(){
 function gridLoad() {
 	var roster = [];	//list of Students in system
 	var courses = [];	// list of Classes in system
+	var jsons = loadJSON();
+	var c = jsons[0];
+	var s = jsons[1];
 //
 	//initializes all Classes
 	var i = 101;
@@ -22,55 +26,60 @@ function gridLoad() {
 		roster.push(new Student(s[student]));
 	}
 
-//	var testSubject = roster[0];
-//	for(var j = 0; j < 5; j++) {
-//		var div = document.createElement('div');
-//		dayList = testsubject.matrix[j];
-//		var currentState = daylist[0];
-//		var len = 0;
-//		var bgcolor = "#444477";
-//		for(var d = 0; d < 36; d++) {
-//			len++;
-//			if(!(dayList[d] === currentState)) {
-//				var divv = document.createElement('div');
-//				bgcolor = "rgba(0,0,0,0)";
-//				if(currentState === AVAILABLE) {
-//					divv.setAttribute('class','busy-box');
-//				}
-//				else if(currentState === NOT_AVAILABLE) {
-//					divv.setAttribute('class','busy-box');
-//				}
-//				else {
-//					divv.setAttribute('class','busy-box');
-//					bgcolor = bgcolors[currentState];
-//				}
-//				var height = (30 * len).toString() + "px; ";
-//				divv.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
-//				divv.setAttribute('style','height: 100px; ');
-//				document.getElementById("Monday").appendChild(divv);
-//				currentState = dayList[d];
-//			}
-//		}
-//
-//		if(currentState === AVAILABLE) {
-//			div.setAttribute('class','empty-box');
-//		}
-//		else if(currentState === NOT_AVAILABLE) {
-//			div.setAttribute('class','busy-box');
-//		}
-//		else {
-//			div.setAttribute('class','color-box');
-//			bgcolor = bgcolors[currentState];
-//		}
-//		var height = (30 * len).toString() + "px; ";
-		var height = "100px;";
-//		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
-//		div.getElementById("Monday").appendChild(div);
-//	}
-	var div = document.createElement('div');
-	div.setAttribute('class','color-box');
-	div.setAttribute('style','background-color: #ffff00; height: 250px;');
-	document.getElementById("Thursday").appendChild(div);
+	var testSubject = roster[0];
+	courses[0].lec1.addStudent(testSubject);
+	courses[1].lec2.addStudent(testSubject);
+	courses[2].lec2.addStudent(testSubject);
+	courses[3].lec2.addStudent(testSubject);
+	courses[5].lec1.addStudent(testSubject);
+	for(var j = 0; j < 5; j++) {
+		var div = document.createElement('div');
+		var dayList = testSubject.matrix[j];
+		var currentState = dayList[0];
+		var len = 0;
+		var bgcolor = "";
+		for(var d = 0; d < 36; d++) {
+			len++;
+			if(!(dayList[d] === currentState)) {
+				var divv = document.createElement('div');
+				bgcolor = "";
+				if(currentState === AVAILABLE) {
+					divv.setAttribute('class','empty-box');
+				}
+				else if(currentState === NOT_AVAILABLE) {
+					divv.setAttribute('class','busy-box');
+				}
+				else {
+					divv.setAttribute('class','color-box');
+					bgcolor = bgcolors[currentState];
+				}
+				var height = (size * len).toString() + 'px; ';
+				divv.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
+				document.getElementById(days[j]).appendChild(divv);
+				currentState = dayList[d];
+				len = 0;
+			}
+		}
+
+		if(currentState === AVAILABLE) {
+			div.setAttribute('class','empty-box');
+		}
+		else if(currentState === NOT_AVAILABLE) {
+			div.setAttribute('class','busy-box');
+		}
+		else {
+			div.setAttribute('class','color-box');
+			bgcolor = bgcolors[currentState];
+		}
+		var height = (size * len).toString() + "px; ";
+//		var height = "100px;";
+		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
+		document.getElementById(days[j]).appendChild(div);
+	}
+//	var div = document.createElement('div');
+//	div.setAttribute('class','color-box');
+//	div.setAttribute('style','background-color: #ffff00; height: 250px;');
+//	document.getElementById("Thursday").appendChild(div);
 }
 
 // print a given str in a given div
@@ -236,7 +245,7 @@ class Lecture {
 		this.students.push(s);
 		s.lectures.push(this);
 		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
-			s.matrix[l.day][c] = s.lectures.length -1;
+			s.matrix[dayAsIndex(this.day)][c] = s.lectures.length -1;
 		}
 		this.studentCount++;
 		s.lectureCount++;
@@ -446,7 +455,7 @@ roster[1].print();
 
 
 ///////////////// JSONs /////////////////
-
+function loadJSON() {
 var c = {"classes": {
     "101": {
     		  "name": "Mathematics",
@@ -4382,3 +4391,5 @@ var s = {
         }
     ]
 }    
+	return [c,s];
+}
