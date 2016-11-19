@@ -1,48 +1,50 @@
-var m = require('./classes.json');
+///////////////// FUNCTIONS /////////////////
 
 // function to be ran at page load time
 function load(){
-    printOnDiv("<center>Welcome to Tijuana</center>")
+    printOnDiv("<center>Welcome to Tijuana</center>","output")
 }
 
-// print on <div>
-function printOnDiv(str){
-    document.getElementById("user").innerHTML = str
+// print a given str in a given div
+function printOnDiv(str,div){
+    document.getElementById(div).innerHTML = str
 }
 
-// radio buttons
-var currentValue = 0;
+// upon choosing a profession, activate ID prompt, text area and button
 function handleClick(radio) {
-//    alert('Old value: ' + currentValue);
-//    alert('New value: ' + myRadio.value);
-//    currentValue = myRadio.value;
-    printOnDiv(radio.value)
-}
-
-
-var c = {"classes": {
-    "101": {
-    		  "name": "Mathematics",
-    		  "times": {
-    		  		"time1":{
-    		  			"day":"Monday",
-    		  			"start":"08:30am",
-    		  			"end":"10:30am"
-    		  			},
-    		  		"time2":{
-    		  			"day":"Tuesday",
-    		  			"start":"08:00am",
-    		  			"end":"10:00am"
-    		  			}
-    		  }
+    var prompt;
+    switch(radio.value){
+    case "student": 
+        prompt = "Student ID"
+        break;
+    case "professor":
+        prompt = "Class Num"
+        break;
+    case "dean":
+        prompt = "WHAT"  
+        break;
     }
-}}
-
-// JSONs
-var test = {
-    "name":"Joe Biden", 
-    "BFF": "Obama"
+    printOnDiv(prompt,"userPrompt")
+    document.getElementById("userPrompt").style.display='block';
+    document.getElementById("promptID").disabled = false;
+    document.getElementById("doIt").disabled = false;
 }
+
+// submit button, retrieves data from JSON and displays in website
+function doIt(){
+    var out = "";
+    var id = document.getElementById("promptID").value;
+    if  (document.getElementById("student").checked){
+         out = JSON.stringify(s[id]);
+    } else if (document.getElementById("professor").checked){
+        out = JSON.stringify(c["classes"][id]);
+    } else {
+        out = "DEAN SUCKS COCK"
+    }
+    printOnDiv(out,"output");
+}
+
+///////////////// JSONs /////////////////
 
 var c = {"classes": {
     "101": {
@@ -196,7 +198,7 @@ var c = {"classes": {
     		  }
     }                
 }
-}
+}    
 
 var s = {
     "1": [

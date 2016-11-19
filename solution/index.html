@@ -8,15 +8,19 @@
         <script type="text/javascript" src="src/scripts/test.js"></script>
         <link href="css/style.css" rel="stylesheet">
     </head>
-    <input type="button" id="btn" value="Test!" onClick="output();" />
-    <form action="">
-    <input type="radio" name="viewer"  onclick="handleClick(this);" value="student"> Student<br>
-    <input type="radio" name="viewer"  onclick="handleClick(this);" value="prof"> Professor<br>
-    <input type="radio" name="viewer"  onclick="handleClick(this);" value="dean"> Dean
-    </form>
     <body onload="load()">
     <div class="mainContainer">
-        <div class="rows" id="user"></div>
+    <div class="choices">
+        <form action="">
+            <input type="radio" name="profession"  onclick="handleClick(this);" id="student" value="student"> Student<br>
+            <input type="radio" name="profession"  onclick="handleClick(this);" id="professor" value="professor"> Professor<br>
+            <input type="radio" name="profession"  onclick="handleClick(this);" id="dean" value="dean"> Dean
+        </form>
+        <div id="userPrompt"></div>
+        <input type="text" id="promptID" disabled=true/>
+        <input type="button" id="doIt" value="DO IT!" onClick="doIt();" disabled=true/>
+    </div>    
+    <div class="rows" id="output"></div>
     </div>
     </body>
 </html>
