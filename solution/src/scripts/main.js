@@ -1,168 +1,67 @@
-var c = {"classes": {
-    "101": {
-    		  "name": "Mathematics",
-    		  "times": {
-    		  		"time1":{
-    		  			"day":"Monday",
-    		  			"start":"08:30am",
-    		  			"end":"10:30am"
-    		  			},
-    		  		"time2":{
-    		  			"day":"Tuesday",
-    		  			"start":"08:00am",
-    		  			"end":"10:00am"
-    		  			}
-    		  }
-    }
-}}
-var s = {
-    "1": [
-        "CANDELARIO, AQUINO",
-        {
-            "avail1": {
-                "day": "Monday",
-                "start": "08:00am",
-                "end": "07:00pm"
-            },
-            "avail2": {
-                "day": "Tuesday",
-                "start": "08:00am",
-                "end": "01:00pm"
-            },
-            "avail3": {
-                "day": "Tuesday",
-                "start": "02:00pm",
-                "end": "07:00pm"
-            },
-            "avail4": {
-                "day": "Wednesday",
-                "start": "08:00am",
-                "end": "08:00pm"
-            },
-            "avail5": {
-                "day": "Thursday",
-                "start": "NA",
-                "end": "NA"
-            },
-            "avail6": {
-                "day": "Friday",
-                "start": "08:00am",
-                "end": "12:30pm"
-            },
-            "avail7": {
-                "day": "Friday",
-                "start": "01:00pm",
-                "end": "07:00pm"
-            }
-        }
-    ],
-    "2": [
-        "THERON, AVERETT",
-        {
-            "avail1": {
-                "day": "Monday",
-                "start": "08:00am",
-                "end": "12:00pm"
-            },
-            "avail2": {
-                "day": "Monday",
-                "start": "02:00pm",
-                "end": "04:00pm"
-            },
-            "avail3": {
-                "day": "Tuesday",
-                "start": "08:00am",
-                "end": "12:30pm"
-            },
-            "avail4": {
-                "day": "Tuesday",
-                "start": "01:00pm",
-                "end": "07:00pm"
-            },
-            "avail5": {
-                "day": "Wednesday",
-                "start": "08:00am",
-                "end": "12:30pm"
-            },
-            "avail6": {
-                "day": "Wednesday",
-                "start": "01:00pm",
-                "end": "07:00pm"
-            },
-            "avail7": {
-                "day": "Thursday",
-                "start": "08:00am",
-                "end": "12:00pm"
-            },
-            "avail8": {
-                "day": "Thursday",
-                "start": "12:30pm",
-                "end": "04:00pm"
-            },
-            "avail9": {
-                "day": "Friday",
-                "start": "08:00am",
-                "end": "08:00pm"
-            }
-        }
-    ]}
- 
-;
+///////////////// BROWSER FUNCTIONS /////////////////
+
 // function to be ran at page load time
 function load(){
-    printOnDiv(ct);
+    printOnDiv("<center>Welcome to Tijuana</center>","output")
 }
 
-function getStudentName(id){
-	printOnDiv("g")
-}
-function getAvail(id){
-	printOnDiv("g")
-	return s[id][1];
-}
-//prints 1 student avails
-function toString(id){
-	var string;
-	var out; 
-	console.log(s[id][0])
-	for (var key in s[id][1]){
-		string = s[id][1][key]["day"] + "  \tTime: " +
-	 	s[id][1][key]["start"] + " - " +
-		s[id][1][key]["end"];
-		out += string + "\n";
-	}
-	printOnDiv(out);
-}
-//Prints all student avails
-function prettyfy(){	
-	var i = 1;
-	for(var key in s){
-		toString(i)
-		i++;
-	}
+// print a given str in a given div
+function printOnDiv(str,div){
+    document.getElementById(div).innerHTML = str
 }
 
-prettyfy();
-// print on <div>
-function printOnDiv(str){
- //   document.getElementById("user").innerHTML = str
-}
-
-// radio buttons
-var currentValue = 0;
+// upon choosing a profession, activate ID prompt, text area and button
 function handleClick(radio) {
-//    alert('Old value: ' + currentValue);
-//    alert('New value: ' + myRadio.value);
-//    currentValue = myRadio.value;
-    printOnDiv(radio.value)
+    var prompt;
+    switch(radio.value){
+    case "student": 
+        prompt = "Student ID"
+        break;
+    case "professor":
+        prompt = "Class Num"
+        break;
+    case "dean":
+        prompt = "WHAT"  
+        break;
+    }
+    printOnDiv(prompt,"userPrompt")
+    document.getElementById("userPrompt").style.display='block';
+    document.getElementById("promptID").disabled = false;
+    document.getElementById("doIt").disabled = false;
 }
 
-
-// JSONs
-var test = {
-    "name":"Joe Biden", 
-    "BFF": "Obama"
+// submit button, retrieves data from JSON and displays in website
+function doIt(){
+    var out = "";
+    var id = document.getElementById("promptID").value;
+    if  (document.getElementById("student").checked){
+         out = studentToString(id);
+    } else if (document.getElementById("professor").checked){
+        out = JSON.stringify(c["classes"][id]);
+    } else {
+        out = "DEAN SUCKS COCK"
+    }
+    printOnDiv(out,"output");
 }
+
+// prettyfies student object
+function studentToString(id){
+	var out = "<pre>" +s[id][0] + "<br>"
+	for (var key in s[id][1]){
+		out += s[id][1][key]["day"] + "   &#9;Time: " +
+	 	s[id][1][key]["start"] + " - " +
+		s[id][1][key]["end"] + "<br>"
+	}
+	return out+"</pre>";
+}
+
+///////////////// ALGORITHM FUNCTIONS /////////////////
+
+
+
+
+
+///////////////// JSONs /////////////////
 
 var c = {"classes": {
     "101": {
@@ -316,7 +215,7 @@ var c = {"classes": {
     		  }
     }                
 }
-}
+}    
 
 var s = {
     "1": [
@@ -511,7 +410,7 @@ var s = {
                 "day": "Monday",
                 "start": "02:00pm",
                 "end": "07:00pm"
-          },
+            },
             "avail3": {
                 "day": "Tuesday",
                 "start": "08:00am",
