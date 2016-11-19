@@ -1,3 +1,6 @@
+var AVAILABLE = -2;
+var NOT_AVAILABLE = -1;
+
 var students = require("../JSON/studentsByAvailability.json");
 var classes = require("../JSON/classes.json");
 
@@ -7,7 +10,10 @@ var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
  * Student class
  * constructor	: takes in JSON student
  * s			: student data as given in the JSON file
- * matrix		: matrix that indicates if available at a given time and day. Columns are days, rows are intervals of 30mins.
+ * matrix		: matrix that indicates if available at a given time and day. Columns are days, rows are intervals of 15mins.
+ * 					matrix stores AVAILABLE at a given day and time when the student has free time
+ * 					matrix stores NOT_AVAILABLE at a given time when the time is not within his availabilities (from JSON)
+ * 					otherwise, matrix stores int corresponding to the index of the student's lecture at that time
  * lectures 	: array of Lectures registered for
  * lectureCount	: amount of lectures registered for
  * print()		: prints name (temporary)
@@ -20,8 +26,8 @@ class Student {
 		this.matrix = [];
 		for(var c = 0; c < 5; c++) {
 			var row = [];
-			for(var r = 0; r < 19; r++) {
-				row[r] = false;
+			for(var r = 0; r < 37; r++) {
+				row[r] = NOT_AVAILABLE;
 			}
 			this.matrix[c] = row;
 		}
@@ -30,8 +36,8 @@ class Student {
 			var start = timeAsIndex(s[1][a]["start"]);
 			var end = timeAsIndex(s[1][a]["end"]);
 			for (var c = start; c <= end; c++) {
-				if(c > 18) break;
-				daylist[c] = true;
+				if(c > 36) break;
+				daylist[c] = AVAILABLE;
 			}
 		}
 		this.lectures = [];
@@ -44,10 +50,14 @@ class Student {
 	}
 
 	printHours() {
-		for(var j = 0; j <= 18; j++) {
+		for(var j = 0; j <= 36; j++) {
 			var timeslot = "";
 			for (var c = 0; c < 5; c++) {
-				timeslot += this.matrix[c][j] + " "
+				var string = "";
+				if(this.matrix[c][j] === AVAILABLE) string = "FREE";
+				else if (this.matrix[c][j] === NOT_AVAILABLE) string = "BUSY";
+				else string = "LEC" + this.matrix[c][j];
+				timeslot += string + " "
 			}
 			console.log(timeslot);
 		}
@@ -81,7 +91,7 @@ class Lecture {
 		this.students.push(s);
 		s.lectures.push(this);
 		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
-			s.matrix[l.day][c] = false;
+			s.matrix[l.day][c] = s.lectures.length -1;
 		}
 		this.studentCount++;
 		s.lectureCount++;
@@ -136,7 +146,7 @@ function isAvailable(s,l) {
 	var end = timeAsIndex(l["end"]);
 	var daylist = s.matrix[dayAsIndex(day)];
 	for (var c = start; c < end; c++) {
-		if(!daylist[c]) return false;
+		if(!(daylist[c] === AVAILABLE)) return false;
 	}
 	return true;
 }
@@ -162,13 +172,27 @@ function timeAsNum(time) {
  */
 
 function timeAsIndex(time) {
-	if(time == "NA") return 19; //Out of bounds -- will be interpreted as not available for that day altogether
+	if(time == "NA") return 40; //Out of bounds -- will be interpreted as not available for that day altogether
 	var timearray = time.split(":");
 	var hour = parseInt(timearray[0]);
 	if(timearray[1].charAt(2) === 'p' && !(hour === 12)) hour += 12;
 	var minute = parseInt(timearray[1].substr(0,2));
 	hour -= 8;
-	return hour * 2 + Math.floor(minute/30);
+	return hour * 4 + Math.floor(minute/15);
+}
+
+/*
+ * indexAsTimeInt(int index)
+ * given a row index, returns an integer describing the time
+ * Not used, most likely isn't necessary
+ */
+
+function indexAsTimeInt(index) {
+	var hour = Math.floor(index/4);
+	index -= hour * 4;
+	hour += 8;
+	var minute = index * 15;
+	return hour * 100 + minute;
 }
 
 /*
