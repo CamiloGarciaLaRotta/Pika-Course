@@ -3,9 +3,6 @@ var classes = require("../JSON/classes.json");
 
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
 
-console.log(timeAsNum("04:30pm"));
-
-
 class Student {
 	constructor (s) {
 		this.s = s;
@@ -18,9 +15,9 @@ class Student {
 			this.matrix[c] = row;
 		}
 		for(var a in s[1]) {
-			var daylist = this.matrix[dayAsIndex(a["day"])];
-			var start = timeAsIndex(a["start"]);
-			var end = timeAsIndex(a["end"]);
+			var daylist = this.matrix[dayAsIndex(s[1][a]["day"])];
+			var start = timeAsIndex(s[1][a]["start"]);
+			var end = timeAsIndex(s[1][a]["end"]);
 			for (var c = start; c <= end; c++) {
 				if(end > 17) break;
 				daylist[c] = true;
@@ -35,14 +32,23 @@ class Student {
 			this.matrix[l.day][c] = false;
 		}
 	}
+	
+	print() {
+		console.log(this.s[0]);
+	}
 }
 
 class Lecture {
-	constructor(l) {
+	constructor(name,l) {
+		this.name = name;
 		this.start = l["start"];
 		this.end = l["end"];
 		this.day = l["day"];
 		this.students = [];
+	}
+	
+	print() {
+		console.log(this.name + ": " + this.day + " from " + this.start + " to " + this.end);
 	}
 }
 
@@ -50,8 +56,8 @@ class Class {
 	constructor(i,c) {
 		this.num = i;
 		this.name = c["name"];
-		this.lec1 = new Lecture(c["times"]["time1"]);
-		this.lec2 = new Lecture(c["times"]["time2"]);
+		this.lec1 = new Lecture(this.name,c["times"]["time1"]);
+		this.lec2 = new Lecture(this.name,c["times"]["time2"]);
 	}
 }
 
@@ -61,14 +67,11 @@ var courses = [];
 
 var i = 101;
 for(var c in classes["classes"]) {
-	console.log(Object.keys(c));
-	courses.push(new Class(i++,c[(i-1).toString()]));
+	courses.push(new Class(i,classes["classes"][(i++).toString()]));
 }
-//cl = new Class(101,classes["classes"]["101"]);
-//console.log(cl.num + ": " + cl.name);
 
 for(var s in students) {
-	roster.push(new Student(s));
+	roster.push(new Student(students[s]));
 }
 
 function isAvailable(s,l) {
@@ -91,6 +94,7 @@ function timeAsNum(time) {
 }
 
 function timeAsIndex(time) {
+	if(time == "NA") return 19; //Out of bounds -- will be interpreted as not available for that day altogether
 	var timearray = time.split(":");
 	var hour = parseInt(timearray[0]);
 	if(timearray[1].charAt(2) === 'p') hour += 12;
@@ -103,4 +107,6 @@ function dayAsIndex(day) {
 	return days.indexOf(day);
 }
 
+roster[0].print();
+courses[0].lec1.print();
 console.log(isAvailable(roster[0],courses[0].lec1));
