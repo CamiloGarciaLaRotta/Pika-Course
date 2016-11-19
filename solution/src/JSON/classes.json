@@ -1,0 +1,153 @@
+{"classes": {
+    "101": {
+    		  "name": "Mathematics",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Monday",
+    		  			"start":"08:30am",
+    		  			"end":"10:30am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Tuesday",
+    		  			"start":"08:00am",
+    		  			"end":"10:00am"
+    		  			}
+    		  }
+    },
+    "102":  {
+    		  "name": "Physics",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Tuesday",
+    		  			"start":"08:30am",
+    		  			"end":"10:30am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Wednesday",
+    		  			"start":"08:00am",
+    		  			"end":"10:00am"
+    		  			}
+    		  }
+    },
+    "103": {
+    		  "name": "Biology",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Wednesday",
+    		  			"start":"08:30am",
+    		  			"end":"10:30am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Friday",
+    		  			"start":"08:00am",
+    		  			"end":"10:00am"
+    		  			}
+    		  }
+    },
+    "104":  {
+    		  "name": "Chemistry",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Monday",
+    		  			"start":"10:30am",
+    		  			"end":"12:00pm"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Tuesday",
+    		  			"start":"02:00pm",
+    		  			"end":"3:30pm"
+    		  			}
+    		  }
+    },
+    "105":  {
+    		  "name": "History",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Thursday",
+    		  			"start":"08:30am",
+    		  			"end":"11:00am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Friday",
+    		  			"start":"08:00am",
+    		  			"end":"10:30am"
+    		  			}
+    		  }
+    },
+    "106":  {
+    		  "name": "Sociology",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Wednesday",
+    		  			"start":"01:00pm",
+    		  			"end":"03:00pm"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Friday",
+    		  			"start":"01:00pm",
+    		  			"end":"03:00pm"
+    		  			}
+    		  }
+    },
+    "107":  {
+    		  "name": "French",
+      		  "times": {
+    		  		"time1":{
+    		  			"day":"Monday",
+    		  			"start":"08:30am",
+    		  			"end":"10:30am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Tuesday",
+    		  			"start":"08:00am",
+    		  			"end":"10:00am"
+    		  			}
+    		  }
+    },                
+    "108":  {
+    		  "name": "English",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Tuesday",
+    		  			"start":"10:30am",
+    		  			"end":"12:00pm"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Wednesday",
+    		  			"start":"10:00am",
+    		  			"end":"11:30am"
+    		  			}
+    		  }
+    },                
+    "109":  {
+    		  "name": "Programming",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Wednesday",
+    		  			"start":"03:00pm",
+    		  			"end":"05:00pm"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Friday",
+    		  			"start":"01:00pm",
+    		  			"end":"03:00pm"
+    		  			}
+    		  }
+    },                
+    "110":  {
+    		  "name": "Music",
+    		  "times": {
+    		  		"time1":{
+    		  			"day":"Thursday",
+    		  			"start":"08:30am",
+    		  			"end":"11:00am"
+    		  			},
+    		  		"time2":{
+    		  			"day":"Friday",
+    		  			"start":"08:00am",
+    		  			"end":"10:30am"
+    		  			}
+    		  }
+    }                
+}
+}    
