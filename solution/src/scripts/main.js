@@ -37,7 +37,7 @@ function doIt(){
     if  (document.getElementById("student").checked){
          out = studentToString(id);
     } else if (document.getElementById("professor").checked){
-        out = JSON.stringify(c["classes"][id]);
+        out = ProfToStringClass(id);
     } else {
         out = "DEAN SUCKS COCK"
     }
@@ -53,6 +53,17 @@ function studentToString(id){
 		s[id][1][key]["end"] + "<br>"
 	}
 	return out+"</pre>";
+}
+
+// prettyfies professor object
+function ProfToStringClass(id){
+    var out = "<pre>" + c.classes[id]["name"] + "<br>"
+    for (var key in c.classes[id]["times"]){
+        out += "Day: "+ c.classes[id]["times"][key]["day"]+ "  &#9;Time: " +
+        c.classes[id]["times"][key]["start"] + "-" +
+        c.classes[id]["times"][key]["end"] + "<br>"
+    }
+    return out+"</pre>";
 }
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
