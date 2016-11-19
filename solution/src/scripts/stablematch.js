@@ -9,7 +9,7 @@ class Student {
 		this.matrix = [];
 		for(var c = 0; c < 5; c++) {
 			var row = [];
-			for(var r = 0; r < 18; r++) {
+			for(var r = 0; r < 19; r++) {
 				row[r] = false;
 			}
 			this.matrix[c] = row;
@@ -19,7 +19,7 @@ class Student {
 			var start = timeAsIndex(s[1][a]["start"]);
 			var end = timeAsIndex(s[1][a]["end"]);
 			for (var c = start; c <= end; c++) {
-				if(end > 17) break;
+				if(c > 18) break;
 				daylist[c] = true;
 			}
 		}
@@ -35,6 +35,16 @@ class Student {
 	
 	print() {
 		console.log(this.s[0]);
+	}
+
+	printHours() {
+		for(var j = 0; j <= 18; j++) {
+			var timeslot = "";
+			for (var c = 0; c < 5; c++) {
+				timeslot += this.matrix[c][j] + " "
+			}
+			console.log(timeslot);
+		}
 	}
 }
 
@@ -77,7 +87,9 @@ for(var s in students) {
 function isAvailable(s,l) {
 	var day = l["day"];
 	var start = timeAsIndex(l["start"]);
+	console.log(l["start"] + " -> " + start);
 	var end = timeAsIndex(l["end"]);
+	console.log(l["end"] + " -> " + end);
 	var daylist = s.matrix[dayAsIndex(day)];
 	for (var c = start; c < end; c++) {
 		if(!daylist[c]) return false;
@@ -97,7 +109,7 @@ function timeAsIndex(time) {
 	if(time == "NA") return 19; //Out of bounds -- will be interpreted as not available for that day altogether
 	var timearray = time.split(":");
 	var hour = parseInt(timearray[0]);
-	if(timearray[1].charAt(2) === 'p') hour += 12;
+	if(timearray[1].charAt(2) === 'p' && !(hour === 12)) hour += 12;
 	var minute = parseInt(timearray[1].substr(0,2));
 	hour -= 8;
 	return hour * 2 + Math.floor(minute/30);
@@ -107,6 +119,7 @@ function dayAsIndex(day) {
 	return days.indexOf(day);
 }
 
-roster[0].print();
-courses[0].lec1.print();
-console.log(isAvailable(roster[0],courses[0].lec1));
+roster[1].print();
+roster[1].printHours();
+courses[2].lec1.print();
+console.log(isAvailable(roster[1],courses[2].lec1));
