@@ -1,6 +1,7 @@
 "use strict"
 ///////////////// BROWSER FUNCTIONS /////////////////
-
+var i = 0;
+var j = 0;
 // function to be ran at page load time
 var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
 var size = 15;
@@ -258,13 +259,11 @@ function stringifyStudents(id){
 // generate student string for final output json
 function studentsToJSON(){
 	var students = {};
-	i = 1;
-	for(var stu in roster) {
-		students["student"+i] = {}
-		students["student"+i].id = stu*1+1; //parseInt is for loosers
-		students["student"+i].name = roster[stu].s[0];
-		students["student"+i].classesTaken = studentLecturesToString(roster[stu]);
-		i++;
+	for(var m=0; m<roster.length; m++) {
+		students["student"+m] = {}
+		students["student"+m].id = roster[m].id; //parseInt is for loosers
+		students["student"+m].name = roster[m].s[0];
+		students["student"+m].classesTaken = studentLecturesToString(roster[m]);
 	}
 	return students;
 }
@@ -287,6 +286,14 @@ function classesToJSON(){
 			course[courses[c].name][courses[c].lec1.day + "-" + courses[c].lec1.start + "-" + courses[c].lec1.end]["student"+i] = {
 				id: courses[c].lec1.students[stu].id,
 				name : courses[c].lec1.students[stu].s[0],
+			}
+			i++;
+		}
+		course[courses[c].name][courses[c].lec2.day + "-" + courses[c].lec2.start + "-" + courses[c].lec2.end] = {}
+		for (var stu in courses[c].lec2.students) {
+			course[courses[c].name][courses[c].lec2.day + "-" + courses[c].lec2.start + "-" + courses[c].lec2.end]["student"+i] = {
+				id: courses[c].lec2.students[stu].id,
+				name : courses[c].lec2.students[stu].s[0],
 			}
 			i++;
 		}
@@ -321,8 +328,7 @@ function download(data, filename, type) {
 
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
-var i = 0;
-var j = 0;
+
 var AVAILABLE = -2;
 var NOT_AVAILABLE = -1;
 
@@ -795,8 +801,8 @@ function logCourses(){
 	}
 }
 
-//priority();
-//console.log(studentsToJSON())
+priority();
+console.log(studentsToJSON())
 //console.log(classesToJSON())
 //console.log(stringifyStudents(105))
 
