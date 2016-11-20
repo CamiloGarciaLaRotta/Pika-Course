@@ -15,10 +15,10 @@ function handleClick(radio) {
     var prompt;
     switch(radio.value){
     case "student": 
-        prompt = "Student ID"
+        prompt = "Student ID [1-80]"
         break;
     case "professor":
-        prompt = "Class Num"
+        prompt = "Class Num [101-110]"
         break;
     case "dean":
         prompt = "Student ID [1-80] or Class Num [101-110]"  
@@ -38,13 +38,13 @@ function doIt(){
          if (id > 0 && id <=80){
 		out = studentToString(id);
 	}else{
-		out = "<center>Invalid Input</center>;
+		out = "<center>Invalid Input</center>";
 	}
     } else if (document.getElementById("professor").checked){
 	if (id > 100 && id <=110){
 	 	out = ProfToStringClass(id);
 	}else{
-		out = "<center>Invalid INput </center>";
+		out = "<center>Invalid Input </center>";
 	}
     } else {
 	if (id <= 80 && id > 0){
