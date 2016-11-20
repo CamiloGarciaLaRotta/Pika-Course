@@ -21,7 +21,7 @@ function handleClick(radio) {
         prompt = "Class Num"
         break;
     case "dean":
-        prompt = "WHAT"  
+        prompt = "Student ID (0-80) or Class Num(101-110)"  
         break;
     }
     printOnDiv(prompt,"userPrompt")
@@ -39,7 +39,13 @@ function doIt(){
     } else if (document.getElementById("professor").checked){
         out = ProfToStringClass(id);
     } else {
-        out = "DEAN SUCKS COCK"
+	if (id <= 80 && id > 0){
+		out = studentToString(id);
+	}else if (id >= 101 && id <= 110){
+		out = ProfToStudent(id);
+	}else {
+		out = "Invalid Input";
+	}
     }
     printOnDiv(out,"output");
 }
