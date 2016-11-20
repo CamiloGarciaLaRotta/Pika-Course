@@ -424,7 +424,7 @@ function dayAsIndex(day) {
 }
 
 /*
-//Testing
+//EXEMPLES OF CLASSES
 roster[1].print();
 roster[1].printHours();
 courses[2].lec1.print();
@@ -442,75 +442,10 @@ function shuffle(a) {
     }
 }
 
-// set all student's courses and all course's students -> [] 
-function resetAll() {
-    for (i = 0; i < roster.length ; i++){
-        roster[i].lectures.length = 0;
-        roster[i].lectureCount = 0;
-    }
-    for (i = 0; i < courses.length ; i++){
-        courses[i].lec1.students.length = 0;
-        courses[i].lec1.studentCount = 0;
-        courses[i].lec2.students.length = 0;
-        courses[i].lec2.studentCount = 0;
-    }
-}
+// By convention a lazy student is one that doesn't have 5 courses for the semester
+// By convention an ugly class is one that doesn't have 20 students in each lecture
 
-function errorWeight(config) {
-	var error = 0;
-	for(var c in config[0]) {
-		error += (20 - config[0][c].lec1.studentCount);
-		error += (20 - config[0][c].lec2.studentCount);
-	}
-	return error;
-}
-
-//do{
-//    resetAll()
-//    shuffle(roster)
-//    for(var s in roster) {
-//        for(var c in courses){
-////            check if student is full
-//            if(roster[s].lectureCount == 5) continue;
-
-//            //vanilla(roster[s], courses[c])
-//            //cuckoo(roster[s], courses[c])
-//        }
-//    }
-
-//}while(getLazyStudents().length > 0)
-
-//var configs = [];
-//var best = -1;
-//var tries = 0;
-//var curConfig = [courses.slice(),roster.slice()];
-//console.log("Initial error weight");
-//console.log(errorWeight(curConfig));
-//while(errorWeight(curConfig) > 0) {
-//	shuffle(curConfig[0]);
-//	tries++;
-//	console.log("Iterations: " + tries);
-//	if(tries > 500) {
-//		console.log("Exceeded maximum tries, best error weight is: " + errorWeight(configs[best]));
-//		return;
-//	}
-//	for(var s in roster) {
-//		for(var c in courses){
-//			//check if student is full
-//			if(roster[s].lectureCount == 5) continue;
-//
-////			cuckoo(roster[s], courses[c])
-//			vanilla(roster[s], courses[c])
-//		}
-//	}
-//	if(best === -1) configs.push(curConfig);
-//	else if (errorWeight(curConfig) < errorWeight(configs[best])) {
-//		best++;
-//		configs.push(curConfig);
-//	}
-//	curConfig = [courses.slice(),roster.slice()];
-//}
-
+// verify if there are no lazy students
 function noLazyStudents(students) {
 	for(var s = 0; s < students.length; s++) {
 		if(students[s].lectureCount < 5) return false;
@@ -518,6 +453,7 @@ function noLazyStudents(students) {
 	return true;
 }
 
+// count how many lazy students there are
 function countLazyStudents(students) {
 	var lazy = 0;
 	for(var s = 0; s < students.length; s++) {
@@ -588,7 +524,15 @@ function priority() {
 	courses = bestcourses.slice();
 }
 
-// VANILLA ALGORITHM
+priority();
+
+/*
+ * VANILLA ALGORITHM
+ * first come, first served mentality
+ * AVG non-full lectures: 21/40
+ * AVF non-full students: 37/80
+ * Not used in final solution, used as base case
+ */
 function vanilla(s, c) {
     // verify if student is available for lecture 1 or 2
     if (c.lec1.studentCount < 20 && isAvailable(s,c.lec1)){
@@ -599,12 +543,20 @@ function vanilla(s, c) {
     } 
 }
 
+/*
+ * CUCKOO ALGORITHM
+ * based on cuckoo hashing, last come first served
+ * if lecture is full, it will go through all students of 
+ * that lecture and find one who can take another available course
+ * AVG non-full lectures: 7/40
+ * AVF non-full students: 35/80
+ * Not used in final solution
+ */
 function cuckoo(currS, currL) {
-    for(var ss in roster) {
-        if (roster[ss] === currS || roster[ss].getLectureCount() > 4) continue
+    for(var ss in currL.students) {
         for(var cc in courses){
-            if (courses[cc].lec1 === currL || courses[cc].lec2 === currL) continue 
-            if (roster[ss].isTaking(courses[cc].name)) break;
+            // ignore course if its the one we started cuckoo or if the current student already is taking that course
+            if (courses[cc].lec1 === currL || courses[cc].lec2 === currL || roster[ss].isTaking(courses[cc].name)) continue 
             
             if(courses[cc].lec1.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec1)) {
                 // remove student with better availabilities and add him to new course
@@ -625,7 +577,9 @@ function cuckoo(currS, currL) {
     }
 }
 
-// get unfilled classes, unfilled courses
+///////////////// PRETTY PRINTERS /////////////////
+
+// get students that dont have 5 courses
 function getLazyStudents(){
     var lazyStudents = []
     for (i = 1; i < 80; i++){
@@ -634,6 +588,7 @@ function getLazyStudents(){
     return lazyStudents
 }
 
+// get lectures that are not full
 function getUglyCourses() {
     var uglyCourses = []
     for (i = 0; i < courses.length; i++) {
@@ -642,25 +597,26 @@ function getUglyCourses() {
     return uglyCourses
 }
 
-
-// pretty printer methods
-
 //console.log(getLazyStudents())
 //console.log(getUglyCourses())
 
-priority();
-
-for (i = 1; i < 80; i++){
-    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
-    for(j = 0; j< roster[i].lectures.length; j++){
-        console.log("\t" + roster[i].lectures[j].name);
-    }
+// print students and their courses
+function logStudents(){
+	for (i = 1; i < 80; i++){
+		console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
+		for(j = 0; j< roster[i].lectures.length; j++){
+			console.log("\t" + roster[i].lectures[j].name);
+		}
+	}
 }
 
-for(i = 0; i < 10; i++ ){
-    console.log(courses[i].name + " : " )
-    console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
-    console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
+// print courses and the amount of students on each lecture
+function logCourses(){
+	for(i = 0; i < 10; i++ ){
+		console.log(courses[i].name + " : " )
+		console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
+		console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
+	}
 }
 
 ///////////////// JSONs /////////////////
