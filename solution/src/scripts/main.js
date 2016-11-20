@@ -134,14 +134,12 @@ function availability(){
 //Generate the schedule
 function generateSchedule() {
 	document.getElementById("dLoad").disabled = false;
+	priority()
 }
 
 //Download the schedule
 function dloadSchedule(){
-    	var obj = JSON.stringify(s);
-	var url = 'data:text/json;charset=utf8,' + encodeURIComponent(obj);
-	window.open(url,'_blank');
-	window.focus();
+    download(JSON.stringify(allToJSON(), undefined, 2),"MALAKA.json",'json')
 
 }
 // prettyfies student object
@@ -163,8 +161,82 @@ function ProfToString(id){
         c.classes[id]["times"][key]["start"] + "-" +
         c.classes[id]["times"][key]["end"] + "<br>"
     }
+	//out += stringifyStudents(id);
     return out+"</pre>";
 }
+
+function stringifyStudents(id){
+	var out = "";
+	for(var stu in courses[id].students){
+		out += courses[id].students[stu].s[0] + " &#9;ID " +courses[id].students[stu].id + "<br>";
+	}
+	return out;
+}
+
+// generate student string for final output json
+function studentsToJSON(){
+	var students = {};
+	i = 1;
+	for(var stu in roster) {
+		students["student"+i] = {}
+		students["student"+i].id = stu*1+1; //parseInt is for loosers
+		students["student"+i].name = roster[stu].s[0];
+		students["student"+i].classesTaken = studentLecturesToString(roster[stu]);
+		i++;
+	}
+	return students;
+}
+
+function studentLecturesToString(student) {
+	var out = "";
+	for (i = 0; i< student.lectures.length; i++){
+		out+=student.lectures[i].name + "-" +student.lectures[i].day + "-" + student.lectures[i].start + "-" + student.lectures[i].end+", ";
+	}
+	return out;
+}
+
+function classesToJSON(){
+	var course = {};
+	for(var c in courses) {
+		i = 1;
+		course[courses[c].name] = {}
+		course[courses[c].name][courses[c].lec1.day + "-" + courses[c].lec1.start + "-" + courses[c].lec1.end] = {}
+		for (var stu in courses[c].lec1.students) {
+			course[courses[c].name][courses[c].lec1.day + "-" + courses[c].lec1.start + "-" + courses[c].lec1.end]["student"+i] = {
+				id: courses[c].lec1.students[stu].id,
+				name : courses[c].lec1.students[stu].s[0],
+			}
+			i++;
+		}
+	}
+	return course;
+}
+
+// returns final output json
+function allToJSON(){
+	return {classes: classesToJSON(), students: studentsToJSON()}
+}
+
+// Function to download data to a file
+function download(data, filename, type) {
+    var a = document.createElement("a"),
+        file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}
+
+
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
 var i = 0;
@@ -192,7 +264,8 @@ var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
  */
 
 class Student {
-	constructor (s) {
+	constructor (s,id) {
+		this.id = id;
 		this.s = s;
 		this.matrix = [];
 		this.avail = [];
@@ -358,7 +431,7 @@ for(var cl in c["classes"]) {
 
 //initializes all Students
 for(var student in s) {
-	roster.push(new Student(s[student]));
+	roster.push(new Student(s[student], student));
 }
 
 /*
@@ -607,7 +680,7 @@ function getUglyCourses() {
 //console.log(getLazyStudents())
 //console.log(getUglyCourses())
 
-priority();
+//priority();
 //
 //for (i = 1; i < 80; i++){
 //    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
@@ -639,6 +712,10 @@ function logCourses(){
 		console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
 	}
 }
+
+//priority();
+//console.log(studentsToJSON())
+//console.log(classesToJSON())
 
 ///////////////// JSONs /////////////////
 var c;
