@@ -384,7 +384,7 @@ function resetAll() {
 for(var s in roster) {
     for(var c in courses){
         //check if student is full
-        if(roster[s].getLectureCount() == 5) break;
+        if(roster[s].getLectureCount() > 4) break;
 
         if (isAvailable(roster[s],courses[c].lec1)){
             if (courses[c].lec1.getStudentCount() < 20) {
@@ -417,18 +417,19 @@ function vanilla(s, c) {
 
 function cuckoo(currS, currL) {
     for(var ss in roster) {
-        if (roster[ss] === currS) continue
+        if (roster[ss] === currS || roster[ss].getLectureCount() > 4) continue
         for(var cc in courses){
-            if (courses[cc] === currL) continue // how to check if same lecture? lecture times?
+            if (courses[cc].lec1 === currL || courses[cc].lec2 === currL) continue 
+            if (roster[ss].isTaking(courses[cc].name)) break;
             
-            if(courses[cc].lec1.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec1) && roster[s].isTaking(courses[cc].name)) {
+            if(courses[cc].lec1.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec1)) {
                 // remove student with better availabilities and add him to new course
                 currL.removeStudent(roster[ss])
                 courses[cc].lec1.addStudent(roster[ss])
                 // add cuckoo student
                 currL.addStudent(currS)
                 return;
-            } else if(courses[cc].lec2.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec2) && roster[s].isTaking(courses[cc].name)) {
+            } else if(courses[cc].lec2.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec2)) {
                 // remove student with better availabilities and add him to new course
                 currL.removeStudent(roster[ss])
                 courses[cc].lec2.addStudent(roster[ss])
@@ -444,7 +445,7 @@ function cuckoo(currS, currL) {
 function getLazyStudents(){
     var lazyStudents = []
     for (i = 1; i < 80; i++){
-        if(roster[i].lectureCount < 5) lazyStudents.push(roster[i]);
+        if(roster[i].getLectureCount() < 5) lazyStudents.push(roster[i]);
     }
     return lazyStudents
 }
@@ -452,7 +453,7 @@ function getLazyStudents(){
 function getUglyCourses() {
     var uglyCourses = []
     for (i = 0; i < courses.length; i++) {
-        if (courses[i].lec1.studentCount + courses[i].lec2.studentCount < 40) uglyCourses.push(courses[i])
+        if (courses[i].lec1.getStudentCount() <20 && courses[i].lec2.getStudentCount() < 20) uglyCourses.push(courses[i])
     }
     return uglyCourses
 }
