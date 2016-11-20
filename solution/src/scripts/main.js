@@ -6,6 +6,7 @@ var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
 var size = 15;
 function load(){
 	printOnDiv("<center>Pika-Course!</center>","output")
+	priority();
 }
 
 function gridLoad() {
@@ -95,12 +96,15 @@ function handleClick(radio) {
     switch(radio.value){
     case "student": 
         prompt = "Student ID [1-80]"
+		document.getElementById("dLoad").disabled = true;
         break;
     case "professor":
         prompt = "Class Num [101-110]"
+		document.getElementById("dLoad").disabled = true;
         break;
     case "dean":
-        prompt = "Student ID [1-80] or Class Num [101-110]"  
+        prompt = "Student ID [1-80] or Class Num [101-110]" 
+		document.getElementById("dLoad").disabled = false;
         break;
     }
     printOnDiv(prompt,"userPrompt")
@@ -133,13 +137,12 @@ function availability(){
 
 //Generate the schedule
 function generateSchedule() {
-	document.getElementById("dLoad").disabled = false;
 	priority()
 }
 
 //Download the schedule
 function dloadSchedule(){
-    download(JSON.stringify(allToJSON(), undefined, 2),"MALAKA.json",'json')
+    download(JSON.stringify(allToJSON(), undefined, 2),"codejam-challenge.json",'json')
 
 }
 // prettyfies student object
@@ -161,16 +164,20 @@ function ProfToString(id){
         c.classes[id]["times"][key]["start"] + "-" +
         c.classes[id]["times"][key]["end"] + "<br>"
     }
-	//out += stringifyStudents(id);
+	out += stringifyStudents(id);
     return out+"</pre>";
 }
 
 function stringifyStudents(id){
-	var out = "";
-	for(var stu in courses[id].students){
-		out += courses[id].students[stu].s[0] + " &#9;ID " +courses[id].students[stu].id + "<br>";
+	var s = "<br>Lec1 <br>";
+	for(var stu in courses[id-101].lec1.students){
+		s += "ID " + courses[id-101].lec1.students[stu].id + "  &#9;" + courses[id-101].lec1.students[stu].s[0] +"<br>";
 	}
-	return out;
+	s += "<br>Lec2 <br>";
+	for(var stu in courses[id-101].lec2.students){
+		s += "ID " + courses[id-101].lec2.students[stu].id + "  &#9;" + courses[id-101].lec2.students[stu].s[0] +"<br>";
+	}
+	return s;
 }
 
 // generate student string for final output json
@@ -716,6 +723,7 @@ function logCourses(){
 //priority();
 //console.log(studentsToJSON())
 //console.log(classesToJSON())
+//console.log(stringifyStudents(105))
 
 ///////////////// JSONs /////////////////
 var c;
