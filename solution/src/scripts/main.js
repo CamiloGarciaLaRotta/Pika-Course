@@ -380,8 +380,10 @@ for(i = 0; i < 10; i++ ){
 }
 
 ///////////////// JSONs /////////////////
-
-var c = {"classes": {
+var c;
+var s;
+function loadJSON() {
+	c = {"classes": {
     "101": {
     		  "name": "Mathematics",
     		  "times": {
@@ -535,7 +537,7 @@ var c = {"classes": {
 }
 }    
 
-var s = {
+s = {
     "1": [
         "CANDELARIO, AQUINO",
         {
@@ -4317,3 +4319,6 @@ var s = {
         }
     ]
 }    
+
+	return [c,s];
+}
