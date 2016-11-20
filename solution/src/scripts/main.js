@@ -52,9 +52,10 @@ function gridLoad() {
 				else {
 					divv.setAttribute('class','color-box');
 					bgcolor = bgcolors[currentState];
+					divv.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
 				}
 				var height = (size * len).toString() + 'px; ';
-				divv.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
+				divv.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 				document.getElementById(days[j]).appendChild(divv);
 				currentState = dayList[d];
 				len = 0;
@@ -70,10 +71,11 @@ function gridLoad() {
 		else {
 			div.setAttribute('class','color-box');
 			bgcolor = bgcolors[currentState];
+			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
 		}
 		var height = (size * len).toString() + "px; ";
 //		var height = "100px;";
-		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height);
+		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 		document.getElementById(days[j]).appendChild(div);
 	}
 //	var div = document.createElement('div');
