@@ -50,9 +50,17 @@ function doIt(){
 		out = "<center>Invalid Input</center>";
 	}
     }
-    printOnDiv(out,"output");
+ 	printOnDiv(out,"output");
+  
 }
+//Generating the schedule
+function dloadSchedule(){
+    	var obj = JSON.stringify(s);
+	var url = 'data:text/json;charset=utf8,' + encodeURIComponent(obj);
+	window.open(url,'_blank');
+	window.focus();
 
+}
 // prettyfies student object
 function studentToString(id){
 	var out = "<pre>" +s[id][0] + "<br>"
@@ -76,7 +84,7 @@ function ProfToString(id){
 }
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
-
+///////////////// JSONs /////////////////
 var i = 0;
 var j = 0;
 var AVAILABLE = -2;
@@ -478,6 +486,7 @@ for(i = 0; i < 10; i++ ){
 }
 
 ///////////////// JSONs /////////////////
+>>>>>>> 979661f323aee8bd4b2547846b1f3a879663689c
 var c;
 var s;
 function loadJSON() {
