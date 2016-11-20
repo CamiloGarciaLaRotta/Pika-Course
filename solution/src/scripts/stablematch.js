@@ -91,7 +91,7 @@ class Lecture {
 		this.students.push(s);
 		s.lectures.push(this);
 		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
-			s.matrix[l.day][c] = s.lectures.length -1;
+			s.matrix[dayAsIndex(this.day)][c] = s.lectures.length -1;
 		}
 		this.studentCount++;
 		s.lectureCount++;
@@ -133,6 +133,12 @@ for(var c in classes["classes"]) {
 //initializes all Students
 for(var s in students) {
 	roster.push(new Student(students[s]));
+}
+
+function cuckoo() {
+	for(var s in students) {
+
+	}
 }
 
 /*
