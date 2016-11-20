@@ -102,6 +102,7 @@ class Student {
 	constructor (s) {
 		this.s = s;
 		this.matrix = [];
+		this.avail = [];
 		for(var c = 0; c < 5; c++) {
 			var row = [];
 			for(var r = 0; r < 37; r++) {
@@ -118,10 +119,21 @@ class Student {
 				daylist[c] = AVAILABLE;
 			}
 		}
+		this.avail = matrix.slice();
 		this.lectures = [];
 		this.lectureCount = 0;
 	}
 
+	function canTakeLecture(lec) {
+		var day = lec["day"];
+		var start = timeAsIndex(lec["start"]);
+		var end = timeAsIndex(lec["end"]);
+		var dayList = this.avail[dayAsIndex(day)];
+		for(var c = start; c <= end; c++) {
+			if(!(dayList[c] === AVAILABLE)) return false;
+		}
+		return true;
+	}
 	
 	print() {
 		console.log(this.s[0]);
@@ -444,8 +456,10 @@ for(i = 0; i < 10; i++ ){
 }
 
 ///////////////// JSONs /////////////////
-
-var c = {"classes": {
+var c;
+var s;
+function loadJSON() {
+	c = {"classes": {
     "101": {
     		  "name": "Mathematics",
     		  "times": {
@@ -599,7 +613,7 @@ var c = {"classes": {
 }
 }    
 
-var s = {
+s = {
     "1": [
         "CANDELARIO, AQUINO",
         {
@@ -4381,3 +4395,6 @@ var s = {
         }
     ]
 }    
+
+	return [c,s];
+}
