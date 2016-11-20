@@ -119,12 +119,12 @@ class Student {
 				daylist[c] = AVAILABLE;
 			}
 		}
-		this.avail = matrix.slice();
+		this.avail = this.matrix.slice();
 		this.lectures = [];
 		this.lectureCount = 0;
 	}
 
-	function canTakeLecture(lec) {
+	canTakeLecture(lec) {
 		var day = lec["day"];
 		var start = timeAsIndex(lec["start"]);
 		var end = timeAsIndex(lec["end"]);
@@ -316,22 +316,6 @@ function dayAsIndex(day) {
 }
 
 /*
- * shuffle(Array)
- * returns randomized copy of array
- */
-function shuffle(array){
-  var copy = [], n=array.length, i;
-  //while there are elements left to shuffle
-  while(n){
-    //pick the remaining element
-    i = Math.floor(Math.random()*n--)
-    //push it to the new array and remove it from the old one
-    copy.push(array.splice(i,1)[0])
-  }
-  return copy
-}
-
-/*
 //Testing
 roster[1].print();
 roster[1].printHours();
@@ -339,39 +323,55 @@ courses[2].lec1.print();
 console.log(isAvailable(roster[1],courses[2].lec1));
 */
 
-/*
+// shuffle array
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
+// set all student's courses and all course's students -> [] 
+function resetAll() {
+    for (i = 0; i < roster.length ; i++){
+        roster[i].lectures.length = 0;
+        roster[i].lectureCount = 0;
+    }
+    for (i = 0; i < courses.length ; i++){
+        courses[i].lec1.students.length = 0;
+        courses[i].lec1.studentCount = 0;
+        courses[i].lec2.students.length = 0;
+        courses[i].lec2.studentCount = 0;
+    }
+}
+
+do{
+    resetAll()
+    shuffle(roster)
+    for(var s in roster) {
+        for(var c in courses){
+            //check if student is full
+            if(roster[s].lectureCount == 5) continue;
+
+            //vanilla(roster[s], courses[c])
+            //cuckoo(roster[s], courses[c])
+        }
+    }
+
+}while(getLazyStudents.length > 0)
+
 // VANILLA ALGORITHM
-for(var s in roster) {
-    for(var c in courses){
-        //check if student is full
-        if(roster[s].lectureCount == 5) continue;
-
-        // verify if student is available for lecture 1 or 2
-        if (courses[c].lec1.studentCount < 20 && isAvailable(roster[s],courses[c].lec1)){
-            courses[c].lec1.addStudent(roster[s])      
-        }
-        else if (courses[c].lec2.studentCount < 20 && isAvailable(roster[s],courses[c].lec2)){
-            courses[c].lec2.addStudent(roster[s])
-        } 
+function vanilla(s, c) {
+    // verify if student is available for lecture 1 or 2
+    if (c.lec1.studentCount < 20 && isAvailable(s,c.lec1)){
+        c.lec1.addStudent(s)      
     }
-}
-*/
-
-
-while(getLazyStudents.length > 0){
-
-}
-// CUCKOO ALGORITHM
-for(var s in roster) {
-    for(var c in courses){
-        //check if student is full
-        if(roster[s].lectureCount == 5) continue;
-
-        if(courses[c] == undefined){
-            continue;
-        }
-        cuckoo(roster[s], courses[c])
-    }
+    else if (c.lec2.studentCount < 20 && isAvailable(s,c.lec2)){
+        c.lec2.addStudent(s)
+    } 
 }
 
 function cuckoo(currS, currC) {
@@ -403,8 +403,6 @@ function cuckoo(currS, currC) {
     }
 }
 
-
-
 // fill array of students with less than 5 courses
 function getLazyStudents(){
     var lazyStudents = []
@@ -422,37 +420,21 @@ function getUglyCourses() {
     return uglyCourses
 }
 
+//console.log(getLazyStudents())
+//console.log(getUglyCourses())
 
-
-console.log(lazyStudents)
-console.log(uglyCourses)
-
-// find a spot for students who don't have 5 classes
-for (i = 0; i< lazyStudents.length; i++) {
-    // try every class
-    for (var c in courses) {
-        if(isAvailable(lazyStudents[i],courses[c].lec1)){
-            for (j = 0; j < courses[c].lec1.students.length; j++){
-                
-            }
-        } else if(isAvailable(lazyStudents[i],courses[c].lec2)){
-            
-        }
-    }
-}
-
-//TODO balance lectures
-//TODO make so that every student has at least x classes
 
 for (i = 1; i < 80; i++){
-    //console.log(roster[i].s[0] +" : " + roster[i].lectureCount)
+    console.log(roster[i].s[0] +" : " + roster[i].lectureCount)
     for(j = 0; j< roster[i].lectures.length; j++){
-        //console.log("\t" + roster[i].lectures[j].name);
+        console.log("\t" + roster[i].lectures[j].name);
     }
 }
 
 for(i = 0; i < 10; i++ ){
-    //console.log(courses[i].studentCount);
+    console.log(courses[i].name + " : " )
+    console.log("Lec1 : \t" + courses[i].lec1.studentCount);
+    console.log("Lec2 : \t" + courses[i].lec2.studentCount);
 }
 
 ///////////////// JSONs /////////////////
