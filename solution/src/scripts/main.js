@@ -74,6 +74,8 @@ function ProfToString(id){
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
 
+var i = 0;
+var j = 0;
 var AVAILABLE = -2;
 var NOT_AVAILABLE = -1;
 
@@ -305,76 +307,65 @@ console.log(isAvailable(roster[1],courses[2].lec1));
 */
 
 //shuffle(roster)
-//for every class, place the students in the lectures, and if they don't fit,
-//check if there are students in that class that can fit into other classes
-for(var c in courses){
-  for(var s in roster){
-    //check if student fits in lecture 1 or 2
-    if(roster[s].lectureCount > 5){
-      continue;
-    }
-    //if student can be put into that lecture, add him and increase lecture count
-    if (isAvailable(roster[s],courses[c].lec1)){
-      courses[c].lec1.addStudent(roster[s])
-      courses[c].lec1.studentCount++
-      //if the course is full, break and go to the next course
-      if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
-        break
-      }
-    }
-    else if (isAvailable(roster[s],courses[c].lec2)){
-      courses[c].lec2.addStudent(roster[s])
-      courses[c].lec2.studentCount++
-      if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
-        break
-      }
-    }
-    else{
-      //if they don't, check if they fit in other classes
-      var classWithNoRoom = courses[c]
-      for (otherClass in Classes){
-        if(otherClass == classWithNoRoom){
-          continue
+for(var s in roster) {
+    for(var c in courses){
+        //check if student is full
+        if(roster[s].lectureCount == 5) continue;
+
+        // verify if student is available for lecture 1 or 2
+        if (courses[c].lec1.studentCount < 20 && isAvailable(roster[s],courses[c].lec1)){
+            courses[c].lec1.addStudent(roster[s])      
         }
-        else{
-          //for all students in lecture 1, check if they fit into other classes
-          if(otherClass.lec1.studentCount + otherClass.lec2.studentCount>20){
-            continue
-          }
-          for (otherStudent in courses[c].lec1){
-            //if they fit into another lecture, add them to it and remove them from the lecture they unnecessarily occupy
-            if (isAvailable(otherStudent,otherClass.lec1)){
-              roster[s].addLecture(courses[c].lec1)
-              courses[c].lec1.studentCount++
-              otherStudent.addLecture(otherClass.lec1)
-              courses[c].removeStudent(otherStudent)
-              if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
-                break
-              }
-            }
-            else if (isAvailable(otherStudent,otherClass.lec2)){
-              roster[s].addLecture(courses[c].lec2)
-              courses[c].lec2.studentCount++
-              otherStudent.addLecture(otherClass.lec2)
-              courses[c].removeStudent(otherStudent.lec2)
-              if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
-                break
-              }
-            }
-          }
+        else if (courses[c].lec2.studentCount < 20 && isAvailable(roster[s],courses[c].lec2)){
+            courses[c].lec2.addStudent(roster[s])
+        } else {
+            // no lecture available, try and move a student in the current class to another
+
         }
-      }
     }
-  }
-  //if course is full, don't go to next student
-  if((courses[c].lec1.studentCount + courses[c].lec2.studentCount)>20){
-    break
-  }
 }
 
-//console.log(roster[1].lectures)
-console.log(roster[1].lectures);
+// fill array of students with less than 5 courses
+var lazyStudents = []
+for (i = 1; i < 80; i++){
+    if(roster[i].lectureCount < 5) lazyStudents.push(roster[i]);
+}
 
+var uglyCourses = []
+for (i = 0; i < courses.length; i++) {
+    if (courses[i].lec1.studentCount + courses[i].lec2.studentCount < 40) uglyCourses.push(courses[i])
+}
+
+console.log(lazyStudents)
+//console.log(uglyCourses)
+
+// find a spot for students who don't have 5 classes
+for (i = 0; i< lazyStudents.length; i++) {
+    // try every class
+    for (var c in courses) {
+        if(isAvailable(lazyStudents[i],courses[c].lec1)){
+            for (j = 0; j < courses[c].lec1.students.length; j++){
+                
+            }
+        } else if(isAvailable(lazyStudents[i],courses[c].lec2)){
+            
+        }
+    }
+}
+
+//TODO balance lectures
+//TODO make so that every student has at least x classes
+
+for (i = 1; i < 80; i++){
+    //console.log(roster[i].s[0] +" : " + roster[i].lectureCount)
+    for(j = 0; j< roster[i].lectures.length; j++){
+        //console.log("\t" + roster[i].lectures[j].name);
+    }
+}
+
+for(i = 0; i < 10; i++ ){
+    //console.log(courses[i].studentCount);
+}
 
 ///////////////// JSONs /////////////////
 
