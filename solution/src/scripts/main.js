@@ -174,6 +174,27 @@ class Lecture {
 		this.studentCount++;
 		s.lectureCount++;
 	}
+    
+    removeStudent(s) {
+        // find and remove student from lecture
+        for (i = 0; i < this.students.length; i++){
+            if(s === this.students[i]) {
+                this.students = this.students.slice(0,i).concat(this.students.slice(i + 1));
+                break;
+            }
+        }
+
+        // find and remove lecture from student
+        for (i = 0; i < s.lectures.length; i++){
+            if(this === s.lectures[i]) {
+                s.lectures = s.lectures.slice(0,i).concat(s.lectures.slice(i + 1));
+                break;
+            }
+        }
+
+		this.studentCount--;
+		s.lectureCount--;
+	}
 
 	print() {
 		console.log(this.name + ": " + this.day + " from " + this.start + " to " + this.end);
@@ -306,7 +327,8 @@ courses[2].lec1.print();
 console.log(isAvailable(roster[1],courses[2].lec1));
 */
 
-//shuffle(roster)
+/*
+// VANILLA ALGORITHM
 for(var s in roster) {
     for(var c in courses){
         //check if student is full
@@ -318,26 +340,80 @@ for(var s in roster) {
         }
         else if (courses[c].lec2.studentCount < 20 && isAvailable(roster[s],courses[c].lec2)){
             courses[c].lec2.addStudent(roster[s])
-        } else {
-            // no lecture available, try and move a student in the current class to another
+        } 
+    }
+}
+*/
 
+
+while(getLazyStudents.length > 0){
+
+}
+// CUCKOO ALGORITHM
+for(var s in roster) {
+    for(var c in courses){
+        //check if student is full
+        if(roster[s].lectureCount == 5) continue;
+
+        if(courses[c] == undefined){
+            continue;
+        }
+        cuckoo(roster[s], courses[c])
+    }
+}
+
+function cuckoo(currS, currC) {
+    if (isAvailable(currS, currC.lec1) && currC.lec1.studentCount < 20) currC.lec1.addStudent(currS)
+    else if (isAvailable(currS, currC.lec2) && currC.lec2.studentCount < 20) currC.lec2.addStudent(currS)
+    else {
+        for(var s in roster) {
+            if (roster[s].s[0] == currS.s[0]) continue
+            for(var c in courses){
+                if (courses[c].name == currC.name) continue // how to check if same lecture? lecture times?
+                
+                if(courses[c].lec1.studentCount < 20 && isAvailable(roster[s], courses[c].lec1)) {
+                    // remove student with better availabilities and add him to new course
+                    currC.lec1.removeStudent(roster[s])
+                    courses[c].lec1.addStudent(roster[s])
+                    // add cuckoo student
+                    currC.lec1.addStudent(currS)
+                    return;
+                } else if(courses[c].lec2.studentCount < 20 && isAvailable(roster[s], courses[c].lec2)) {
+                    // remove student with better availabilities and add him to new course
+                    currC.lec2.removeStudent(roster[s])
+                    courses[c].lec2.addStudent(roster[s])
+                    // add cuckoo student
+                    currC.lec2.addStudent(currS)
+                    return;
+                }
+            }
         }
     }
 }
 
+
+
 // fill array of students with less than 5 courses
-var lazyStudents = []
-for (i = 1; i < 80; i++){
-    if(roster[i].lectureCount < 5) lazyStudents.push(roster[i]);
+function getLazyStudents(){
+    var lazyStudents = []
+    for (i = 1; i < 80; i++){
+        if(roster[i].lectureCount < 5) lazyStudents.push(roster[i]);
+    }
+    return lazyStudents
 }
 
-var uglyCourses = []
-for (i = 0; i < courses.length; i++) {
-    if (courses[i].lec1.studentCount + courses[i].lec2.studentCount < 40) uglyCourses.push(courses[i])
+function getUglyCourses() {
+    var uglyCourses = []
+    for (i = 0; i < courses.length; i++) {
+        if (courses[i].lec1.studentCount + courses[i].lec2.studentCount < 40) uglyCourses.push(courses[i])
+    }
+    return uglyCourses
 }
+
+
 
 console.log(lazyStudents)
-//console.log(uglyCourses)
+console.log(uglyCourses)
 
 // find a spot for students who don't have 5 classes
 for (i = 0; i< lazyStudents.length; i++) {
