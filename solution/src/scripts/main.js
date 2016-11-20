@@ -71,11 +71,11 @@ function gridLoad() {
 		else {
 			div.setAttribute('class','color-box');
 			bgcolor = bgcolors[currentState];
-			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
+//			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
 		}
 		var height = (size * len).toString() + "px; ";
 //		var height = "100px;";
-		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
+//		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 		document.getElementById(days[j]).appendChild(div);
 	}
 //	var div = document.createElement('div');
@@ -534,7 +534,7 @@ function priority() {
 	var bestresult = countLazyStudents(bestroster);
 	var tmproster = roster.slice();
 	var tmpcourses = courses.slice();
-	for(var tries = 0; tries < 200000; tries++) {
+	for(var tries = 0; tries < 50; tries++) {
 		if(noLazyStudents(bestroster)) break;
 		tmproster = roster.slice();
 		shuffle(tmproster);
@@ -651,19 +651,19 @@ function getUglyCourses() {
 //console.log(getUglyCourses())
 
 priority();
-
-for (i = 1; i < 80; i++){
-    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
-    for(j = 0; j< roster[i].lectures.length; j++){
-        console.log("\t" + roster[i].lectures[j].name);
-    }
-}
-
-for(i = 0; i < 10; i++ ){
-    console.log(courses[i].name + " : " )
-    console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
-    console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
-}
+//
+//for (i = 1; i < 80; i++){
+//    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
+//    for(j = 0; j< roster[i].lectures.length; j++){
+//        console.log("\t" + roster[i].lectures[j].name);
+//    }
+//}
+//
+//for(i = 0; i < 10; i++ ){
+//    console.log(courses[i].name + " : " )
+//    console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
+//    console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
+//}
 
 ///////////////// JSONs /////////////////
 var c;

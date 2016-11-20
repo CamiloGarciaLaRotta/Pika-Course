@@ -63,3 +63,60 @@ input, button {
     font-size: 0.7em;
     color: #53565b;
 }
+
+
+div.columns { 
+	width: 70%; 
+	background: rgba(255,255,255,0.4);
+	min-height: 550px;
+}
+div.clear { clear: both; }
+.centered { 
+	display: flex;
+	justify-content: center;
+}
+.container {
+	width: 100%;
+}
+.day {
+	opacity: 0.8;
+	width: 18%;
+	float: left;
+	font-size: 15px;
+	color: #444444;
+	font-family: "Lucida Sans Unicode";
+}
+.times {
+	opacity: 0.5;
+	width: 10%;
+	font-size: 13px;
+	background: #222222;
+	color: #ffffff;
+	min-height: 550px;
+	float: left;
+	padding-top: 15px;
+}
+.color-box {
+	opacity: 0.4;
+	-webkit.transition: all 0.4s ease-in-out;
+	-moz.transition: all 0.4s ease-in-out;
+	-o.transition: all 0.4s ease-in-out;
+	-ms.transition: all 0.4s ease-in-out;
+	transition: all 0.4s ease-in-out;
+}
+.color-box:hover {
+	opacity: 0.8;
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+.empty-box {
+	opacity: 0.0;
+}
+
+.busy-box {
+	opacity: 0.4;
+	background: #330000;
+}
