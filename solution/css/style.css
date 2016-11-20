@@ -4,13 +4,17 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #f4cb42;
-  overflow: auto;
-  font-size: 1.5em;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #FFD33E;
+    background-image: url("../src/pictures/background.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-attachment: fixed;
+    overflow: auto;
+    font-size: 1.5em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 header {
@@ -18,7 +22,6 @@ header {
     font-weight: 400;
     font-size: 1.5em;
     margin: 2% auto;
-    border-bottom: 2px dotted grey;
 }
 
 input, button {
@@ -29,19 +32,24 @@ input, button {
     margin: 10%;
     padding: 0;
     text-align: center;
-    background: #a6a9ad;
-    border: 2px dotted grey;
     overflow: auto;
+    border-radius: 5px;
 }
 
 .rows {
+    text-align: center;
     width: 90%;
-    margin: 3% auto;
-    padding: 5% 2%;
+    margin: 5% auto;
+    padding: 5%;
     text-align: left;
-    border: 2px solid red;
-    background: #eaecef;
     overflow: auto;
+    background: white;
+    border-radius: 5px;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";       /* IE 8 */
+    filter: alpha(opacity=90);  
+    -moz-opacity: 0.9;          
+    -khtml-opacity: 0.9;        
+    opacity: 0.9;     
 }
 
 .choices {
