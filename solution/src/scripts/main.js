@@ -342,7 +342,7 @@ class Class {
 
 var roster = [];	//list of Students in system
 var courses = [];	// list of Classes in system
-jsons = loadJSON();
+var jsons = loadJSON();
 //initializes all Classes
 var i = 101;
 for(var cl in c["classes"]) {
