@@ -1,14 +1,19 @@
 <html>
 	<head>
 		<title>Color Grid Test</title>
-		<script type="text/javascript" src="test.js" ></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/ico" href="src/pictures/favicon.ico" sizes="32x32" />
+        <script type="text/javascript" src="src/scripts/main.js"></script>
+        <link href="css/style.css" rel="stylesheet">
 	</head>
 
 	<style>
 		body {background-color: #FFFF44; padding: 16px; margin: 0; text-align: center; }
 		div.columns { 
 			width: 70%; 
-			background: rgba(0,0,0,0.5);
+			background: rgba(255,255,255,0.4);
+			min-height: 550px;
 		}
 		div.clear { clear: both; }
 		.centered { 
@@ -19,8 +24,22 @@
 			width: 100%;
 		}
 		.day {
-			width: 20%;
+			opacity: 0.8;
+			width: 18%;
 			float: left;
+			font-size: 15px;
+			color: #444444;
+			font-family: "Lucida Sans Unicode";
+		}
+		.times {
+			opacity: 0.5;
+			width: 10%;
+			font-size: 13px;
+			background: #222222;
+			color: #ffffff;
+			min-height: 550px;
+			float: left;
+			padding-top: 15px;
 		}
 		.color-box {
 			opacity: 0.4;
@@ -48,29 +67,63 @@
 		}
 	</style>
 
-	<body onLoad="load()">
+	<body onLoad="gridLoad()">
 		<div class="container">
 			<div class="centered">
 				<div class="columns">
+					<div class="times">
+						08:00
+						08:15
+						08:30
+						08:45
+						09:00
+						09:15
+						09:30
+						09:45
+						10:00
+						10:15
+						10:30
+						10:45
+						11:00
+						11:15
+						11:30
+						11:45
+						12:00
+						12:15
+						12:30
+						12:45
+						13:00
+						13:15
+						13:30
+						13:45
+						14:00
+						14:15
+						14:30
+						14:45
+						15:00
+						15:15
+						15:30
+						15:45
+						16:00
+						16:15
+						16:30
+						16:45
+						17:00
+					</div>
 					<div class="day" id="Monday">
-						Monday
-						<div class="color-box" style="background-color: #444477; height: 400px;"></div>
-						<div class="busy-box" style="height:200px"></div>
+						Mon
 					</div>
 					<div class="day" id="Tuesday">
-						Tuesday
-						<div class="color-box" style="background-color: #ff0000; height: 100px;"></div>
-						<div class="empty-box" style="height: 130px"></div>
-						<div class="color-box" style="background-color: #880088; height: 170px;"></div>
+						Tue
 					</div>
 					<div class="day" id="Wednesday">
-						Wednesday
+						Wed
 					</div>
 					<div class="day" id="Thursday">
-						Thursday
+						Thu
 					</div>
-					<div class="Mondayday" id="Friday">
-						Friday
+					<div class="day" id="Friday">
+						Fri
 					</div>
 				</div>
 				<div class="clear"></div>
