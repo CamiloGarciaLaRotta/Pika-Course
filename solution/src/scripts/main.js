@@ -5,9 +5,6 @@
 var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
 var size = 15;
 function load(){
-<<<<<<< HEAD
-    printOnDiv("<center>PIKA PIKA PIKA-Course</center>","output")
-=======
 	printOnDiv("<center>Welcome to Tijuana</center>","output")
 }
 
@@ -83,7 +80,6 @@ function gridLoad() {
 //	div.setAttribute('class','color-box');
 //	div.setAttribute('style','background-color: #ffff00; height: 250px;');
 //	document.getElementById("Thursday").appendChild(div);
->>>>>>> colorgrid
 }
 
 // print a given str in a given div
