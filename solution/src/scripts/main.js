@@ -3,7 +3,7 @@
 
 // function to be ran at page load time
 function load(){
-    printOnDiv("<center>Welcome to Tijuana</center>","output")
+    printOnDiv("<center>PIKA PIKA PIKA-Course</center>","output")
 }
 
 // print a given str in a given div
@@ -29,9 +29,12 @@ function handleClick(radio) {
     document.getElementById("userPrompt").style.display='block';
     document.getElementById("promptID").disabled = false;
     document.getElementById("doIt").disabled = false;
+    document.getElementById("Sched").disabled = false;
+    document.getElementById("dLoad").disabled = false;
 }
 
 function doIt(){
+    loadJSON();
     var out = "";
     var id = document.getElementById("promptID").value;
     if  (document.getElementById("student").checked){
@@ -47,9 +50,17 @@ function doIt(){
 		out = "<center>Invalid Input</center>";
 	}
     }
-    printOnDiv(out,"output");
+ 	printOnDiv(out,"output");
+  
 }
+//Generating the schedule
+function dloadSchedule(){
+    	var obj = JSON.stringify(s);
+	var url = 'data:text/json;charset=utf8,' + encodeURIComponent(obj);
+	window.open(url,'_blank');
+	window.focus();
 
+}
 // prettyfies student object
 function studentToString(id){
 	var out = "<pre>" +s[id][0] + "<br>"
@@ -123,6 +134,10 @@ class Student {
 		this.lectureCount = 0;
 	}
 
+    getLectureCount() {
+        return this.lectures.length;
+    }
+
 	canTakeLecture(lec) {
 		var day = lec["day"];
 		var start = timeAsIndex(lec["start"]);
@@ -158,6 +173,13 @@ class Student {
 			console.log(timeslot);
 		}
 	}
+
+    isTaking(s){
+        for(i = 0; i < this.lectures.length ; i++) {
+            if(this.lectures[i].name == s) return true
+        }
+        return false
+    }
 }
 
 /*
@@ -180,7 +202,7 @@ class Lecture {
 		this.end = l["end"];
 		this.day = l["day"];
 		this.students = [];
-		this.studentCount = 0;
+		this.studentCount = this.students.length;
 	}
 	
 	addStudent(s) {
@@ -213,6 +235,10 @@ class Lecture {
 		this.studentCount--;
 		s.lectureCount--;
 	}
+
+    getStudentCount() {
+        return this.students.length;
+    }
 
 	print() {
 		console.log(this.name + ": " + this.day + " from " + this.start + " to " + this.end);
@@ -497,40 +523,37 @@ function vanilla(s, c) {
     } 
 }
 
-function cuckoo(currS, currC) {
-    if (isAvailable(currS, currC.lec1) && currC.lec1.studentCount < 20) currC.lec1.addStudent(currS)
-    else if (isAvailable(currS, currC.lec2) && currC.lec2.studentCount < 20) currC.lec2.addStudent(currS)
-    else {
-        for(var s in roster) {
-            if (roster[s].s[0] == currS.s[0]) continue
-            for(var c in courses){
-                if (courses[c].name == currC.name) continue // how to check if same lecture? lecture times?
-                
-                if(courses[c].lec1.studentCount < 20 && isAvailable(roster[s], courses[c].lec1)) {
-                    // remove student with better availabilities and add him to new course
-                    currC.lec1.removeStudent(roster[s])
-                    courses[c].lec1.addStudent(roster[s])
-                    // add cuckoo student
-                    currC.lec1.addStudent(currS)
-                    return;
-                } else if(courses[c].lec2.studentCount < 20 && isAvailable(roster[s], courses[c].lec2)) {
-                    // remove student with better availabilities and add him to new course
-                    currC.lec2.removeStudent(roster[s])
-                    courses[c].lec2.addStudent(roster[s])
-                    // add cuckoo student
-                    currC.lec2.addStudent(currS)
-                    return;
-                }
+function cuckoo(currS, currL) {
+    for(var ss in roster) {
+        if (roster[ss] === currS || roster[ss].getLectureCount() > 4) continue
+        for(var cc in courses){
+            if (courses[cc].lec1 === currL || courses[cc].lec2 === currL) continue 
+            if (roster[ss].isTaking(courses[cc].name)) break;
+            
+            if(courses[cc].lec1.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec1)) {
+                // remove student with better availabilities and add him to new course
+                currL.removeStudent(roster[ss])
+                courses[cc].lec1.addStudent(roster[ss])
+                // add cuckoo student
+                currL.addStudent(currS)
+                return;
+            } else if(courses[cc].lec2.getStudentCount() < 20 && isAvailable(roster[ss], courses[cc].lec2)) {
+                // remove student with better availabilities and add him to new course
+                currL.removeStudent(roster[ss])
+                courses[cc].lec2.addStudent(roster[ss])
+                // add cuckoo student
+                currL.addStudent(currS)
+                return;
             }
         }
     }
 }
 
-// fill array of students with less than 5 courses
+// get unfilled classes, unfilled courses
 function getLazyStudents(){
     var lazyStudents = []
     for (i = 1; i < 80; i++){
-        if(roster[i].lectureCount < 5) lazyStudents.push(roster[i]);
+        if(roster[i].getLectureCount() < 5) lazyStudents.push(roster[i]);
     }
     return lazyStudents
 }
@@ -538,10 +561,13 @@ function getLazyStudents(){
 function getUglyCourses() {
     var uglyCourses = []
     for (i = 0; i < courses.length; i++) {
-        if (courses[i].lec1.studentCount + courses[i].lec2.studentCount < 40) uglyCourses.push(courses[i])
+        if (courses[i].lec1.getStudentCount() <20 && courses[i].lec2.getStudentCount() < 20) uglyCourses.push(courses[i])
     }
     return uglyCourses
 }
+
+
+// pretty printer methods
 
 //console.log(getLazyStudents())
 //console.log(getUglyCourses())
@@ -549,7 +575,7 @@ function getUglyCourses() {
 priority();
 
 for (i = 1; i < 80; i++){
-    console.log(roster[i].s[0] +" : " + roster[i].lectureCount)
+    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
     for(j = 0; j< roster[i].lectures.length; j++){
         console.log("\t" + roster[i].lectures[j].name);
     }
@@ -557,8 +583,8 @@ for (i = 1; i < 80; i++){
 
 for(i = 0; i < 10; i++ ){
     console.log(courses[i].name + " : " )
-    console.log("Lec1 : \t" + courses[i].lec1.studentCount);
-    console.log("Lec2 : \t" + courses[i].lec2.studentCount);
+    console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
+    console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
 }
 
 ///////////////// JSONs /////////////////
