@@ -1,4 +1,4 @@
-/*"use strict"*/
+"use strict"
 ///////////////// BROWSER FUNCTIONS /////////////////
 
 // function to be ran at page load time
@@ -31,23 +31,21 @@ function handleClick(radio) {
     document.getElementById("doIt").disabled = false;
 }
 
-// submit button, retrieves data from JSON and displays in website
 function doIt(){
     var out = "";
     var id = document.getElementById("promptID").value;
-
     if  (document.getElementById("student").checked){
-         out = (id > 0 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
+         out = (id >= 1 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
     } else if (document.getElementById("professor").checked){
-	    out = (id > 100 && id <= 110) ? profToStringClass(id) : "<center>Invalid Input </center>";
+        out = (id >= 100 && id <= 110) ? ProfToString(id) : "<center>Invalid Input</center>";
     } else {
-        if (id <= 80 && id > 0){
-            out = studentToString(id);
-        }else if (id >= 101 && id <= 110){
-            out = profToStudent(id);
-        }else {
-            out = "<center>Invalid Input</center>";
-        }
+	if (id <= 80 && id > 0){
+		out = studentToString(id);
+	}else if (id >= 101 && id <= 110){
+		out = ProfToString(id);
+	}else {
+		out = "<center>Invalid Input</center>";
+	}
     }
     printOnDiv(out,"output");
 }
@@ -64,10 +62,10 @@ function studentToString(id){
 }
 
 // prettyfies professor object
-function profToStringClass(id){
+function ProfToString(id){
     var out = "<pre>" + c.classes[id]["name"] + "<br>"
     for (var key in c.classes[id]["times"]){
-        out += "Day: "+ c.classes[id]["times"][key]["day"]+ "  &#9;Time: " +
+        out += "Day: "+ c.classes[id]["times"][key]["day"]+ " &#9;Time: " +
         c.classes[id]["times"][key]["start"] + "-" +
         c.classes[id]["times"][key]["end"] + "<br>"
     }
@@ -169,7 +167,7 @@ class Lecture {
 		this.students.push(s);
 		s.lectures.push(this);
 		for(var c = timeAsIndex(this.start); c <= timeAsIndex(this.end); c++) {
-			s.matrix[l.day][c] = s.lectures.length -1;
+			s.matrix[dayAsIndex(this.day)][c] = s.lectures.length -1;
 		}
 		this.studentCount++;
 		s.lectureCount++;
@@ -325,7 +323,7 @@ for(var c in courses){
       }
     }
     else if (isAvailable(roster[s],courses[c].lec2)){
-      roster[s].addLecture(courses[c].lec2)
+      courses[c].lec2.addStudent(roster[s])
       courses[c].lec2.studentCount++
       if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
         break
@@ -369,13 +367,13 @@ for(var c in courses){
     }
   }
   //if course is full, don't go to next student
-  if((courses[courses[c]].lec1.studentCount + courses[courses[c]].lec2.studentCount)>20){
+  if((courses[c].lec1.studentCount + courses[c].lec2.studentCount)>20){
     break
   }
 }
 
 //console.log(roster[1].lectures)
-roster[1].print();
+console.log(roster[1].lectures);
 
 
 ///////////////// JSONs /////////////////
