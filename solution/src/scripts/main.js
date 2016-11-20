@@ -7,6 +7,7 @@ var size = 15;
 function load(){
 	document.getElementById("schedule").style.display = "none";
 	printOnDiv("<center>Pika-Course!</center>","output")
+	priority();
 }
 
 function gridLoad() {
@@ -97,12 +98,15 @@ function handleClick(radio) {
     switch(radio.value){
     case "student": 
         prompt = "Student ID [1-80]"
+		document.getElementById("dLoad").disabled = true;
         break;
     case "professor":
         prompt = "Class Num [101-110]"
+		document.getElementById("dLoad").disabled = true;
         break;
     case "dean":
-        prompt = "Student ID [1-80] or Class Num [101-110]"  
+        prompt = "Student ID [1-80] or Class Num [101-110]" 
+		document.getElementById("dLoad").disabled = false;
         break;
     }
     printOnDiv(prompt,"userPrompt")
@@ -143,7 +147,7 @@ function generateSchedule() {
 		document.getElementById(days[c]).innerHTML = days[c].substr(0,3);
 	}
 	loadJSON();
-	priority();
+//	priority();
 	if(document.getElementById("professor").checked) return;
 	var id = document.getElementById("promptID").value;
 	var out = (id >= 1 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
@@ -210,10 +214,7 @@ function generateSchedule() {
 
 //Download the schedule
 function dloadSchedule(){
-    	var obj = JSON.stringify(s);
-	var url = 'data:text/json;charset=utf8,' + encodeURIComponent(obj);
-	window.open(url,'_blank');
-	window.focus();
+    download(JSON.stringify(allToJSON(), undefined, 2),"codejam-challenge.json",'json')
 
 }
 // prettyfies student object
@@ -235,8 +236,86 @@ function ProfToString(id){
         c.classes[id]["times"][key]["start"] + "-" +
         c.classes[id]["times"][key]["end"] + "<br>"
     }
+	out += stringifyStudents(id);
     return out+"</pre>";
 }
+
+function stringifyStudents(id){
+	var s = "<br>Lec1 <br>";
+	for(var stu in courses[id-101].lec1.students){
+		s += "ID " + courses[id-101].lec1.students[stu].id + "  &#9;" + courses[id-101].lec1.students[stu].s[0] +"<br>";
+	}
+	s += "<br>Lec2 <br>";
+	for(var stu in courses[id-101].lec2.students){
+		s += "ID " + courses[id-101].lec2.students[stu].id + "  &#9;" + courses[id-101].lec2.students[stu].s[0] +"<br>";
+	}
+	return s;
+}
+
+// generate student string for final output json
+function studentsToJSON(){
+	var students = {};
+	i = 1;
+	for(var stu in roster) {
+		students["student"+i] = {}
+		students["student"+i].id = stu*1+1; //parseInt is for loosers
+		students["student"+i].name = roster[stu].s[0];
+		students["student"+i].classesTaken = studentLecturesToString(roster[stu]);
+		i++;
+	}
+	return students;
+}
+
+function studentLecturesToString(student) {
+	var out = "";
+	for (i = 0; i< student.lectures.length; i++){
+		out+=student.lectures[i].name + "-" +student.lectures[i].day + "-" + student.lectures[i].start + "-" + student.lectures[i].end+", ";
+	}
+	return out;
+}
+
+function classesToJSON(){
+	var course = {};
+	for(var c in courses) {
+		i = 1;
+		course[courses[c].name] = {}
+		course[courses[c].name][courses[c].lec1.day + "-" + courses[c].lec1.start + "-" + courses[c].lec1.end] = {}
+		for (var stu in courses[c].lec1.students) {
+			course[courses[c].name][courses[c].lec1.day + "-" + courses[c].lec1.start + "-" + courses[c].lec1.end]["student"+i] = {
+				id: courses[c].lec1.students[stu].id,
+				name : courses[c].lec1.students[stu].s[0],
+			}
+			i++;
+		}
+	}
+	return course;
+}
+
+// returns final output json
+function allToJSON(){
+	return {classes: classesToJSON(), students: studentsToJSON()}
+}
+
+// Function to download data to a file
+function download(data, filename, type) {
+    var a = document.createElement("a"),
+        file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
+}
+
+
 
 ///////////////// ALGORITHM FUNCTIONS /////////////////
 var i = 0;
@@ -264,7 +343,8 @@ var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
  */
 
 class Student {
-	constructor (s) {
+	constructor (s,id) {
+		this.id = id;
 		this.s = s;
 		this.matrix = [];
 		this.avail = [];
@@ -430,7 +510,7 @@ for(var cl in c["classes"]) {
 
 //initializes all Students
 for(var student in s) {
-	roster.push(new Student(s[student]));
+	roster.push(new Student(s[student], student));
 }
 
 /*
@@ -679,7 +759,7 @@ function getUglyCourses() {
 //console.log(getLazyStudents())
 //console.log(getUglyCourses())
 
-priority();
+//priority();
 //
 //for (i = 1; i < 80; i++){
 //    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
@@ -711,6 +791,11 @@ function logCourses(){
 		console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
 	}
 }
+
+//priority();
+//console.log(studentsToJSON())
+//console.log(classesToJSON())
+//console.log(stringifyStudents(105))
 
 ///////////////// JSONs /////////////////
 var c;
