@@ -35,9 +35,17 @@ function doIt(){
     var out = "";
     var id = document.getElementById("promptID").value;
     if  (document.getElementById("student").checked){
-         out = studentToString(id);
+         if (id > 0 && id <=80){
+		out = studentToString(id);
+	}else{
+		out = "<center>Invalid Input</center>;
+	}
     } else if (document.getElementById("professor").checked){
-        out = ProfToStringClass(id);
+	if (id > 100 && id <=110){
+	 	out = ProfToStringClass(id);
+	}else{
+		out = "<center>Invalid INput </center>";
+	}
     } else {
 	if (id <= 80 && id > 0){
 		out = studentToString(id);
