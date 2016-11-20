@@ -21,7 +21,7 @@ function handleClick(radio) {
         prompt = "Class Num"
         break;
     case "dean":
-        prompt = "Student ID (1-80) or Class Num(101-110)"  
+        prompt = "Student ID [1-80] or Class Num [101-110]"  
         break;
     }
     printOnDiv(prompt,"userPrompt")
@@ -44,7 +44,7 @@ function doIt(){
 	}else if (id >= 101 && id <= 110){
 		out = ProfToStudent(id);
 	}else {
-		out = "Invalid Input";
+		out = "<center>Invalid Input</center>";
 	}
     }
     printOnDiv(out,"output");

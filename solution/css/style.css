@@ -53,4 +53,9 @@ input, button {
 
 #userPrompt {
     display: none;
+    padding: 2% 0;
+    display: block;
+    font-family: "Verdana";
+    font-size: 0.7em;
+    color: #53565b;
 }
