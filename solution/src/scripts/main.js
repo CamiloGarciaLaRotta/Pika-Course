@@ -3,7 +3,7 @@
 
 // function to be ran at page load time
 function load(){
-    printOnDiv("<center>Welcome to Tijuana</center>","output")
+    printOnDiv("<center>PIKA PIKA PIKA-Course</center>","output")
 }
 
 // print a given str in a given div
@@ -29,9 +29,12 @@ function handleClick(radio) {
     document.getElementById("userPrompt").style.display='block';
     document.getElementById("promptID").disabled = false;
     document.getElementById("doIt").disabled = false;
+    document.getElementById("Sched").disabled = false;
+    document.getElementById("dLoad").disabled = false;
 }
 
 function doIt(){
+    loadJSON();
     var out = "";
     var id = document.getElementById("promptID").value;
     if  (document.getElementById("student").checked){
@@ -474,6 +477,7 @@ for(i = 0; i < 10; i++ ){
 }
 
 ///////////////// JSONs /////////////////
+>>>>>>> c3ca0abc81f436e70ab4294ec1a12fd4f7f1d179
 var c;
 var s;
 function loadJSON() {
