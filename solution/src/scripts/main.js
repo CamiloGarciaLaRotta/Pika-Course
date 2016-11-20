@@ -5,7 +5,7 @@
 var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
 var size = 15;
 function load(){
-	printOnDiv("<center>Welcome to Tijuana</center>","output")
+	printOnDiv("<center>Pika-Course!</center>","output")
 }
 
 function gridLoad() {
@@ -108,10 +108,9 @@ function handleClick(radio) {
     document.getElementById("promptID").disabled = false;
     document.getElementById("doIt").disabled = false;
     document.getElementById("Sched").disabled = false;
-    document.getElementById("dLoad").disabled = false;
 }
 
-function doIt(){
+function availability(){
     loadJSON();
     var out = "";
     var id = document.getElementById("promptID").value;
@@ -131,7 +130,13 @@ function doIt(){
  	printOnDiv(out,"output");
   
 }
-//Generating the schedule
+
+//Generate the schedule
+function generateSchedule() {
+	document.getElementById("dLoad").disabled = false;
+}
+
+//Download the schedule
 function dloadSchedule(){
     	var obj = JSON.stringify(s);
 	var url = 'data:text/json;charset=utf8,' + encodeURIComponent(obj);
@@ -526,7 +531,7 @@ function priority() {
 	courses = bestcourses.slice();
 }
 
-priority();
+//priority();
 
 /*
  * VANILLA ALGORITHM
