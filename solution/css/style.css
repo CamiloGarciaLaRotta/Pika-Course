@@ -8,10 +8,6 @@ body {
     padding: 0;
     height: 100%;
     background: #FFD33E;
-    background-image: url("../src/pictures/background.png");
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-attachment: fixed;
     overflow: auto;
     font-size: 1.5em;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
