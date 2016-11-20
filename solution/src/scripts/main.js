@@ -1,3 +1,4 @@
+/*"use strict"*/
 ///////////////// BROWSER FUNCTIONS /////////////////
 
 // function to be ran at page load time
@@ -34,26 +35,19 @@ function handleClick(radio) {
 function doIt(){
     var out = "";
     var id = document.getElementById("promptID").value;
+
     if  (document.getElementById("student").checked){
-         if (id > 0 && id <=80){
-		out = studentToString(id);
-	}else{
-		out = "<center>Invalid Input</center>";
-	}
+         out = (id > 0 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
     } else if (document.getElementById("professor").checked){
-	if (id > 100 && id <=110){
-	 	out = ProfToStringClass(id);
-	}else{
-		out = "<center>Invalid Input </center>";
-	}
+	    out = (id > 100 && id <= 110) ? profToStringClass(id) : "<center>Invalid Input </center>";
     } else {
-	if (id <= 80 && id > 0){
-		out = studentToString(id);
-	}else if (id >= 101 && id <= 110){
-		out = ProfToStudent(id);
-	}else {
-		out = "<center>Invalid Input</center>";
-	}
+        if (id <= 80 && id > 0){
+            out = studentToString(id);
+        }else if (id >= 101 && id <= 110){
+            out = profToStudent(id);
+        }else {
+            out = "<center>Invalid Input</center>";
+        }
     }
     printOnDiv(out,"output");
 }
@@ -70,7 +64,7 @@ function studentToString(id){
 }
 
 // prettyfies professor object
-function ProfToStringClass(id){
+function profToStringClass(id){
     var out = "<pre>" + c.classes[id]["name"] + "<br>"
     for (var key in c.classes[id]["times"]){
         out += "Day: "+ c.classes[id]["times"][key]["day"]+ "  &#9;Time: " +
@@ -304,40 +298,42 @@ function shuffle(array){
   return copy
 }
 
+/*
 //Testing
 roster[1].print();
 roster[1].printHours();
 courses[2].lec1.print();
 console.log(isAvailable(roster[1],courses[2].lec1));
+*/
 
-/*shuffle(roster)
+//shuffle(roster)
 //for every class, place the students in the lectures, and if they don't fit,
 //check if there are students in that class that can fit into other classes
-for(var course in courses){
-  for(var student in roster){
+for(var c in courses){
+  for(var s in roster){
     //check if student fits in lecture 1 or 2
-    if(student.lectureCount > 5){
+    if(roster[s].lectureCount > 5){
       continue;
     }
     //if student can be put into that lecture, add him and increase lecture count
-    if (isAvailable(student,course.lec1)){
-      student.addLecture(course.lec1)
-      course.lec1.studentCount++
+    if (isAvailable(roster[s],courses[c].lec1)){
+      courses[c].lec1.addStudent(roster[s])
+      courses[c].lec1.studentCount++
       //if the course is full, break and go to the next course
-      if(course.lec1.studentCount + course.lec2.studentCount>20){
+      if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
         break
       }
     }
-    else if (isAvailable(student,course.lec2)){
-      student.addLecture(course.lec2)
-      course.lec2.studentCount++
-      if(course.lec1.studentCount + course.lec2.studentCount>20){
+    else if (isAvailable(roster[s],courses[c].lec2)){
+      roster[s].addLecture(courses[c].lec2)
+      courses[c].lec2.studentCount++
+      if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
         break
       }
     }
     else{
       //if they don't, check if they fit in other classes
-      var classWithNoRoom = course
+      var classWithNoRoom = courses[c]
       for (otherClass in Classes){
         if(otherClass == classWithNoRoom){
           continue
@@ -347,23 +343,23 @@ for(var course in courses){
           if(otherClass.lec1.studentCount + otherClass.lec2.studentCount>20){
             continue
           }
-          for (otherStudent in course.lec1){
+          for (otherStudent in courses[c].lec1){
             //if they fit into another lecture, add them to it and remove them from the lecture they unnecessarily occupy
             if (isAvailable(otherStudent,otherClass.lec1)){
-              student.addLecture(course.lec1)
-              course.lec1.studentCount++
+              roster[s].addLecture(courses[c].lec1)
+              courses[c].lec1.studentCount++
               otherStudent.addLecture(otherClass.lec1)
-              course.removeStudent(otherStudent)
-              if(course.lec1.studentCount + course.lec2.studentCount>20){
+              courses[c].removeStudent(otherStudent)
+              if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
                 break
               }
             }
             else if (isAvailable(otherStudent,otherClass.lec2)){
-              student.addLecture(course.lec2)
-              course.lec2.studentCount++
+              roster[s].addLecture(courses[c].lec2)
+              courses[c].lec2.studentCount++
               otherStudent.addLecture(otherClass.lec2)
-              course.removeStudent(otherStudent.lec2)
-              if(course.lec1.studentCount + course.lec2.studentCount>20){
+              courses[c].removeStudent(otherStudent.lec2)
+              if(courses[c].lec1.studentCount + courses[c].lec2.studentCount>20){
                 break
               }
             }
@@ -373,13 +369,13 @@ for(var course in courses){
     }
   }
   //if course is full, don't go to next student
-  if((course.lec1.studentCount + course.lec2.studentCount)>20){
+  if((courses[courses[c]].lec1.studentCount + courses[courses[c]].lec2.studentCount)>20){
     break
   }
 }
 
-*/
-
+//console.log(roster[1].lectures)
+roster[1].print();
 
 
 ///////////////// JSONs /////////////////
