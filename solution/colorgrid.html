@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>Color Grid Test</title>
+		<script type="text/javascript" src="test.js" ></script>
+	</head>
+
+	<style>
+		body {background-color: #FFFF44; padding: 16px; margin: 0; text-align: center; }
+		div.columns { 
+			width: 70%; 
+			background: rgba(0,0,0,0.5);
+		}
+		div.clear { clear: both; }
+		.centered { 
+			display: flex;
+			justify-content: center;
+		}
+		.container {
+			width: 100%;
+		}
+		.day {
+			width: 20%;
+			float: left;
+		}
+		.color-box {
+			opacity: 0.4;
+			-webkit.transition: all 0.4s ease-in-out;
+			-moz.transition: all 0.4s ease-in-out;
+			-o.transition: all 0.4s ease-in-out;
+			-ms.transition: all 0.4s ease-in-out;
+			transition: all 0.4s ease-in-out;
+		}
+		.color-box:hover {
+			opacity: 0.8;
+			-webkit-transform: scale(1.1);
+			-moz-transform: scale(1.1);
+			-o-transform: scale(1.1);
+			transform: scale(1.1);
+		}
+
+		.empty-box {
+			opacity: 0.0;
+		}
+
+		.busy-box {
+			opacity: 0.4;
+			background: #330000;
+		}
+	</style>
+
+	<body onLoad="load()">
+		<div class="container">
+			<div class="centered">
+				<div class="columns">
+					<div class="day" id="Monday">
+						Monday
+						<div class="color-box" style="background-color: #444477; height: 400px;"></div>
+						<div class="busy-box" style="height:200px"></div>
+					</div>
+					<div class="day" id="Tuesday">
+						Tuesday
+						<div class="color-box" style="background-color: #ff0000; height: 100px;"></div>
+						<div class="empty-box" style="height: 130px"></div>
+						<div class="color-box" style="background-color: #880088; height: 170px;"></div>
+					</div>
+					<div class="day" id="Wednesday">
+						Wednesday
+					</div>
+					<div class="day" id="Thursday">
+						Thursday
+					</div>
+					<div class="Mondayday" id="Friday">
+						Friday
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</body>
+</html>
