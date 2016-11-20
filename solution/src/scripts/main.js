@@ -345,15 +345,6 @@ var courses = [];	// list of Classes in system
 jsons = loadJSON();
 //initializes all Classes
 var i = 101;
-<<<<<<< HEAD
-for(var cl in jsons[0]["classes"]) {
-	courses.push(new Class(i,jsons[0]["classes"][(i++).toString()]));
-}
-
-//initializes all Students
-for(var student in jsons[1]) {
-	roster.push(new Student(jsons[1][student]));
-=======
 for(var cl in c["classes"]) {
 	courses.push(new Class(i,c["classes"][(i++).toString()]));
 }
@@ -361,7 +352,6 @@ for(var cl in c["classes"]) {
 //initializes all Students
 for(var student in s) {
 	roster.push(new Student(s[student]));
->>>>>>> colorgrid
 }
 
 /*
@@ -652,7 +642,6 @@ function getUglyCourses() {
     return uglyCourses
 }
 
-<<<<<<< HEAD
 
 // pretty printer methods
 
