@@ -158,7 +158,7 @@ function generateSchedule() {
 	document.getElementById("output").style.display = "none";
 //	document.getElementById("output").innerHTML = roster[id-1].s[0];
 //	document.getElementById("output").innerHTML = "";
-	document.getElementById("dLoad").disabled = false;
+
 //	var columndiv = document.createElement('div');
 //	columndiv.setAttribute('class','columns');
 //	columndiv.setAttribute('id','schedule');
