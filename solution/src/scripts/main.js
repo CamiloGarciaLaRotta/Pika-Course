@@ -152,7 +152,10 @@ function generateSchedule() {
 	if(document.getElementById("professor").checked) return;
 	var id = document.getElementById("promptID").value;
 	var out = (id >= 1 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
-	if(id < 1 || id >= 80)  return;
+	if(id < 1 || id >= 80)  {
+		document.getElementById('schedule').style.display = "none";
+		return;
+	};
 //	document.getElementById("preschedule").innerHTML = "Yo Yo Ma";
 	document.getElementById('schedule').style.display = "block";
 	document.getElementById("output").style.display = "none";
