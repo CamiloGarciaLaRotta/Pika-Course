@@ -6,6 +6,7 @@ var j = 0;
 var bgcolors = ["#444477","#ff6600","#008888","#aa00aa","#006600"];
 var size = 15;
 function load(){
+	document.getElementById("schedule").style.display = "none";
 	printOnDiv("<center>Pika-Course!</center>","output")
 	priority();
 }
@@ -62,6 +63,7 @@ function gridLoad() {
 				currentState = dayList[d];
 				len = 0;
 			}
+			currentState = dayList[d];
 		}
 
 		if(currentState === AVAILABLE) {
@@ -77,7 +79,7 @@ function gridLoad() {
 		}
 		var height = (size * len).toString() + "px; ";
 //		var height = "100px;";
-//		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
+		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 		document.getElementById(days[j]).appendChild(div);
 	}
 //	var div = document.createElement('div');
@@ -117,6 +119,8 @@ function handleClick(radio) {
 
 function availability(){
     loadJSON();
+	document.getElementById("schedule").style.display = "none";
+	document.getElementById("output").style.display = "block";
     var out = "";
     var id = document.getElementById("promptID").value;
     if  (document.getElementById("student").checked){
@@ -138,7 +142,75 @@ function availability(){
 
 //Generate the schedule
 function generateSchedule() {
-	priority()
+	var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
+//	document.getElementById("preschedule").innerHTML = "";
+	for(var c = 0; c < days.length; c++) {
+		document.getElementById(days[c]).innerHTML = days[c].substr(0,3);
+	}
+	loadJSON();
+//	priority();
+	if(document.getElementById("professor").checked) return;
+	var id = document.getElementById("promptID").value;
+	var out = (id >= 1 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
+	if(id < 1 || id >= 80)  return;
+//	document.getElementById("preschedule").innerHTML = "Yo Yo Ma";
+	document.getElementById('schedule').style.display = "block";
+	document.getElementById("output").style.display = "none";
+//	document.getElementById("output").innerHTML = roster[id-1].s[0];
+//	document.getElementById("output").innerHTML = "";
+	document.getElementById("dLoad").disabled = false;
+//	var columndiv = document.createElement('div');
+//	columndiv.setAttribute('class','columns');
+//	columndiv.setAttribute('id','schedule');
+//	document.getElementById("mainContainer").appendChild(columndiv);
+
+	var testSubject = roster[id-1];
+	for(var j = 0; j < 5; j++) {
+		var div = document.createElement('div');
+		var dayList = testSubject.matrix[j];
+		var currentState = dayList[0];
+		var len = 0;
+		var bgcolor = "";
+		for(var d = 0; d < 36; d++) {
+			len++;
+			if(!(dayList[d] === currentState)) {
+				var divv = document.createElement('div');
+				bgcolor = "";
+				if(currentState === AVAILABLE) {
+					divv.setAttribute('class','empty-box');
+				}
+				else if(currentState === NOT_AVAILABLE) {
+					divv.setAttribute('class','busy-box');
+				}
+				else {
+					divv.setAttribute('class','color-box');
+					bgcolor = bgcolors[currentState];
+					divv.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
+				}
+				var height = (size * len).toString() + 'px; ';
+				divv.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
+				document.getElementById(days[j]).appendChild(divv);
+				currentState = dayList[d];
+				len = 0;
+			}
+		}
+
+		if(currentState === AVAILABLE) {
+			div.setAttribute('class','empty-box');
+		}
+		else if(currentState === NOT_AVAILABLE) {
+			div.setAttribute('class','busy-box');
+		}
+		else {
+			div.setAttribute('class','color-box');
+			bgcolor = bgcolors[currentState];
+//			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
+		}
+		var height = (size * len).toString() + "px; ";
+//		var height = "100px;";
+//		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
+		document.getElementById(days[j]).appendChild(div);
+	}
 }
 
 //Download the schedule
