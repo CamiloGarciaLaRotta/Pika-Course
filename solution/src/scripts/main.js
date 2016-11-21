@@ -75,17 +75,11 @@ function gridLoad() {
 		else {
 			div.setAttribute('class','color-box');
 			bgcolor = bgcolors[currentState];
-//			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
 		}
 		var height = (size * len).toString() + "px; ";
-//		var height = "100px;";
 		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 		document.getElementById(days[j]).appendChild(div);
 	}
-//	var div = document.createElement('div');
-//	div.setAttribute('class','color-box');
-//	div.setAttribute('style','background-color: #ffff00; height: 250px;');
-//	document.getElementById("Thursday").appendChild(div);
 }
 
 // print a given str in a given div
@@ -143,12 +137,10 @@ function availability(){
 //Generate the schedule
 function generateSchedule() {
 	var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
-//	document.getElementById("preschedule").innerHTML = "";
 	for(var c = 0; c < days.length; c++) {
 		document.getElementById(days[c]).innerHTML = days[c].substr(0,3);
 	}
 	loadJSON();
-//	priority();
 	if(document.getElementById("professor").checked) return;
 	var id = document.getElementById("promptID").value;
 	var out = (id >= 1 && id <= 80) ? studentToString(id) : "<center>Invalid Input</center>";
@@ -156,16 +148,8 @@ function generateSchedule() {
 		document.getElementById('schedule').style.display = "none";
 		return;
 	};
-//	document.getElementById("preschedule").innerHTML = "Yo Yo Ma";
 	document.getElementById('schedule').style.display = "block";
 	document.getElementById("output").style.display = "none";
-//	document.getElementById("output").innerHTML = roster[id-1].s[0];
-//	document.getElementById("output").innerHTML = "";
-
-//	var columndiv = document.createElement('div');
-//	columndiv.setAttribute('class','columns');
-//	columndiv.setAttribute('id','schedule');
-//	document.getElementById("mainContainer").appendChild(columndiv);
 
 	var testSubject = roster[id-1];
 	for(var j = 0; j < 5; j++) {
@@ -207,11 +191,8 @@ function generateSchedule() {
 		else {
 			div.setAttribute('class','color-box');
 			bgcolor = bgcolors[currentState];
-//			div.innerHTML = testSubject.lectures[currentState].name + "<br>" + testSubject.lectures[currentState].start + " - " + testSubject.lectures[currentState].end;
 		}
 		var height = (size * len).toString() + "px; ";
-//		var height = "100px;";
-//		div.setAttribute('style','background: ' + bgcolor + '; height: ' + height + 'color: #ffffff; font-size: 20px;');
 		document.getElementById(days[j]).appendChild(div);
 	}
 }
@@ -331,9 +312,6 @@ function download(data, filename, type) {
 
 var AVAILABLE = -2;
 var NOT_AVAILABLE = -1;
-
-//var students = require("../JSON/studentsByAvailability.json");
-//var classes = require("../JSON/classes.json");
 
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
 
@@ -591,14 +569,6 @@ function dayAsIndex(day) {
 	return days.indexOf(day);
 }
 
-/*
-//EXEMPLES OF CLASSES
-roster[1].print();
-roster[1].printHours();
-courses[2].lec1.print();
-console.log(isAvailable(roster[1],courses[2].lec1));
-*/
-
 // shuffle array
 function shuffle(a) {
     var j, x, i;
@@ -692,7 +662,6 @@ function priority() {
 	courses = bestcourses.slice();
 }
 
-//priority();
 
 /*
  * VANILLA ALGORITHM
@@ -765,23 +734,6 @@ function getUglyCourses() {
     return uglyCourses
 }
 
-//console.log(getLazyStudents())
-//console.log(getUglyCourses())
-
-//priority();
-//
-//for (i = 1; i < 80; i++){
-//    console.log(roster[i].s[0] +" : " + roster[i].getLectureCount())
-//    for(j = 0; j< roster[i].lectures.length; j++){
-//        console.log("\t" + roster[i].lectures[j].name);
-//    }
-//}
-//
-//for(i = 0; i < 10; i++ ){
-//    console.log(courses[i].name + " : " )
-//    console.log("Lec1 : \t" + courses[i].lec1.getStudentCount());
-//    console.log("Lec2 : \t" + courses[i].lec2.getStudentCount());
-//}
 // print students and their courses
 function logStudents(){
 	for (i = 1; i < 80; i++){
@@ -801,10 +753,8 @@ function logCourses(){
 	}
 }
 
-priority();
-console.log(studentsToJSON())
-//console.log(classesToJSON())
-//console.log(stringifyStudents(105))
+//priority();
+
 
 ///////////////// JSONs /////////////////
 var c;
