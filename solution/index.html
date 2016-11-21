@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Pika-Course</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/ico" href="src/pictures/favicon.ico" sizes="32x32" />
+        <script type="text/javascript" src="src/scripts/main.js"></script>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body onload="load()">
+	<div class="title-bar">
+		pika-course
+	</div>
+    <div class="mainContainer">
+		<div class="choices">
+			<form action="">
+				<p style="font-family:Majolica; font-size:32px; color:#000000; opacity: 0.4" align="left">Select identity</p>
+				<input type="radio" name="profession"  onclick="handleClick(this);" id="student" value="student"> Student<br>
+				<input type="radio" name="profession"  onclick="handleClick(this);" id="professor" value="professor"> Professor<br>
+				<input type="radio" name="profession"  onclick="handleClick(this);" id="dean" value="dean"> Dean
+			</form>
+			<div id="userPrompt"></div>
+			<input type="text" id="promptID" disabled=true/>
+			<input type="button" id="doIt" value="Availabilities!" onClick="availability();" disabled=true/>
+		<input type="button" id="Sched" value="Generate Schedule" onclick="generateSchedule()"; disabled=true/>
+		</div>    
+<div class="rows" id="output"></div>
+	<div class="centered" id="preschedule">
+	<div class="columns" id="schedule">
+		<div class="times">
+			08:00<br>
+			08:15<br>
+			08:30<br>
+			08:45<br>
+			09:00<br>
+			09:15<br>
+			09:30<br>
+			09:45<br>
+			10:00<br>
+			10:15<br>
+			10:30<br>
+			10:45<br>
+			11:00<br>
+			11:15<br>
+			11:30<br>
+			11:45<br>
+			12:00<br>
+			12:15<br>
+			12:30<br>
+			12:45<br>
+			13:00<br>
+			13:15<br>
+			13:30<br>
+			13:45<br>
+			14:00<br>
+			14:15<br>
+			14:30<br>
+			14:45<br>
+			15:00<br>
+			15:15<br>
+			15:30<br>
+			15:45<br>
+			16:00<br>
+			16:15<br>
+			16:30<br>
+			16:45<br>
+			17:00
+		</div>
+		<div class="day" id="Monday">
+			Mon
+		</div>
+		<div class="day" id="Tuesday">
+			Tue
+		</div>
+		<div class="day" id="Wednesday">
+			Wed
+		</div>
+		<div class="day" id="Thursday">
+			Thu
+		</div>
+		<div class="day" id="Friday">
+			Fri
+		</div>
+	</div>
+	</div>
+		<div class="clear"></div>
+		<input type="button" id="dLoad" value="Download Schedule" onclick="dloadSchedule()"; disabled=true/>
+ 
+    </div>
+   
+    </body>
+</html>
