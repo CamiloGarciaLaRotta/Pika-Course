@@ -4,7 +4,7 @@
 ###HOW TO OPEN:
 All the code is contained in the solution folder,  
 All the functionalities are visible in index.html  
-Download /solutions and access index.html locally
+Download /solutions and access index.html locally or acces directly [online](http://cgi.cs.mcgill.ca/~cgarci26/)
 
 
 ###HOW TO USE THE SITE:
