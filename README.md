@@ -4,7 +4,7 @@
 ###HOW TO OPEN:
 All the code is contained in the solution folder,  
 All the functionalities are visible in index.html  
-Download /solutions and access index.html locally or acces directly [online](http://cgi.cs.mcgill.ca/~cgarci26/)
+Download /solutions and access index.html locally or acces directly [online](https://camilogarcialarotta.github.io/Pika-Course/solution/index.html)
 
 
 ###HOW TO USE THE SITE:
