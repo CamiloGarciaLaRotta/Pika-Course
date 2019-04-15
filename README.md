@@ -1,13 +1,13 @@
 # Junior_Team19
-# Da Fellas
+## Da Fellas - Code.Jam 2016
 
-###HOW TO OPEN:
+### HOW TO OPEN
 All the code is contained in the solution folder,  
 All the functionalities are visible in index.html  
-Download /solutions and access index.html locally or acces directly [online](https://camilogarcialarotta.github.io/Pika-Course/solution/index.html)
+Download /solutions and access index.html locally or acces directly [online](http://cgi.cs.mcgill.ca/~cgarci26/pika_course/)
 
 
-###HOW TO USE THE SITE:
+### HOW TO USE THE SITE
 
 There are two buttons. One shows availabilities either of a student or a course. The other generates a schedule for a student.
 
